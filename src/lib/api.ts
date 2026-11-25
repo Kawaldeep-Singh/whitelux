@@ -142,7 +142,7 @@ export const api = {
 
   // File Upload
   uploadFiles: async (formData: FormData): Promise<{ success: boolean; urls: string[]; url: string }> => {
-    const res = await fetch(`${API_BASE_URL}/admin/upload`, {
+    const res = await fetch(`${getBaseUrl()}/admin/upload`, {
       method: 'POST',
       body: formData,
       credentials: 'include',
