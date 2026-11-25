@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Metadata } from 'next';
-import { api } from '@/lib/api';
+import { getBlogsServer } from '@/lib/serverData';
 import Navbar from '@/components/Navbar';
 import FooterSection from '@/components/FooterSection';
 import FloatingButtons from '@/components/FloatingButtons';
@@ -33,18 +33,9 @@ export default async function BlogListingPage({
   const currentCategory = searchParams.category || 'All';
   const categoryFilter = currentCategory !== 'All' ? currentCategory : undefined;
 
-  let blogs: Blog[] = [];
-  try {
-    const res = await api.getBlogs({
-      category: categoryFilter,
-      limit: 50,
-    });
-    if (res && res.success) {
-      blogs = res.data;
-    }
-  } catch (err) {
-    console.error('Error fetching blogs', err);
-  }
+  const blogs = await getBlogsServer({
+    category: categoryFilter,
+  });
 
   const featuredBlog = blogs.find((b) => b.featured) || blogs[0];
   const regularBlogs = blogs.filter((b) => b._id !== featuredBlog?._id);

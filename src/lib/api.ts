@@ -2,7 +2,14 @@ function getBaseUrl(): string {
   if (typeof window !== 'undefined') {
     return '/api';
   }
-  return (process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000') + '/api';
+  if (process.env.NEXT_PUBLIC_APP_URL) {
+    const url = process.env.NEXT_PUBLIC_APP_URL.replace(/\/+$/, '');
+    return url.endsWith('/api') ? url : `${url}/api`;
+  }
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}/api`;
+  }
+  return 'http://localhost:3000/api';
 }
 
 interface FetchOptions extends RequestInit {

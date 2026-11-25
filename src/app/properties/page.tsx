@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Metadata } from 'next';
-import { api } from '@/lib/api';
+import { getProjectsServer } from '@/lib/serverData';
 import Navbar from '@/components/Navbar';
 import FooterSection from '@/components/FooterSection';
 import FloatingButtons from '@/components/FloatingButtons';
@@ -54,21 +54,12 @@ export default async function PropertiesPage({
   const statusParam = searchParams.status || undefined;
   const searchParam = searchParams.search || undefined;
 
-  let projects: Project[] = [];
-  try {
-    const res = await api.getProjects({
-      location: locationParam,
-      type: typeParam,
-      status: statusParam,
-      search: searchParam,
-      limit: 50,
-    });
-    if (res && res.success) {
-      projects = res.data;
-    }
-  } catch (err) {
-    console.error('Error fetching properties', err);
-  }
+  const projects = await getProjectsServer({
+    location: locationParam,
+    type: typeParam,
+    status: statusParam,
+    search: searchParam,
+  });
 
   return (
     <div className="bg-[#0D0D0D] text-[#F4ECD8] min-h-screen flex flex-col font-sans">

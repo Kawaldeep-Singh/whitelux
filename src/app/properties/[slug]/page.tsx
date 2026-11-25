@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
-import { api } from '@/lib/api';
+import { getProjectBySlugServer, AUTHENTIC_PROJECTS } from '@/lib/serverData';
 import Navbar from '@/components/Navbar';
 import FooterSection from '@/components/FooterSection';
 import FloatingButtons from '@/components/FloatingButtons';
@@ -23,13 +23,18 @@ interface PageProps {
   params: { slug: string };
 }
 
+export async function generateStaticParams() {
+  return AUTHENTIC_PROJECTS.map((project) => ({
+    slug: project.slug,
+  }));
+}
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   try {
-    const res = await api.getProjectBySlug(params.slug);
-    if (!res || !res.success || !res.data) {
+    const project = await getProjectBySlugServer(params.slug);
+    if (!project) {
       return { title: 'Property | White Luxe Real Estate' };
     }
-    const project: Project = res.data;
     return {
       title: project.seoTitle || `${project.name} ${project.location} | White Luxe Real Estate`,
       description:
@@ -42,15 +47,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function ProjectDetailPage({ params }: PageProps) {
-  let project: Project | null = null;
-  try {
-    const res = await api.getProjectBySlug(params.slug);
-    if (res && res.success && res.data) {
-      project = res.data;
-    }
-  } catch (err) {
-    console.error('Error fetching project slug', params.slug, err);
-  }
+  const project = await getProjectBySlugServer(params.slug);
 
   if (!project) {
     notFound();

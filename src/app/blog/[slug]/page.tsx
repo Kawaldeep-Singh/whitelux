@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
-import { api } from '@/lib/api';
+import { getBlogBySlugServer, getBlogsServer, AUTHENTIC_BLOGS } from '@/lib/serverData';
 import Navbar from '@/components/Navbar';
 import FooterSection from '@/components/FooterSection';
 import FloatingButtons from '@/components/FloatingButtons';
@@ -15,13 +15,18 @@ interface PageProps {
   params: { slug: string };
 }
 
+export async function generateStaticParams() {
+  return AUTHENTIC_BLOGS.map((b) => ({
+    slug: b.slug,
+  }));
+}
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   try {
-    const res = await api.getBlogBySlug(params.slug);
-    if (!res || !res.success || !res.data) {
+    const blog = await getBlogBySlugServer(params.slug);
+    if (!blog) {
       return { title: 'Insights | White Luxe Real Estate' };
     }
-    const blog: Blog = res.data;
     return {
       title: blog.seoTitle || `${blog.title} | White Luxe Real Estate`,
       description: blog.seoDescription || blog.summary,
@@ -32,25 +37,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function BlogDetailPage({ params }: PageProps) {
-  let blog: Blog | null = null;
-  let relatedBlogs: Blog[] = [];
-
-  try {
-    const res = await api.getBlogBySlug(params.slug);
-    if (res && res.success && res.data) {
-      blog = res.data;
-    }
-    const relatedRes = await api.getBlogs({ limit: 3 });
-    if (relatedRes && relatedRes.success) {
-      relatedBlogs = (relatedRes.data || []).filter((b: Blog) => b.slug !== params.slug).slice(0, 3);
-    }
-  } catch (err) {
-    console.error('Error fetching blog', params.slug, err);
-  }
+  const blog = await getBlogBySlugServer(params.slug);
 
   if (!blog) {
     notFound();
   }
+
+  const allBlogs = await getBlogsServer();
+  const relatedBlogs = allBlogs.filter((b) => b.slug !== params.slug).slice(0, 3);
 
   return (
     <div className="bg-[#0D0D0D] text-[#F4ECD8] min-h-screen flex flex-col font-sans">

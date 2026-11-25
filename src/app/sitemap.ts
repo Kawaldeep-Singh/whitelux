@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import { api } from '@/lib/api';
+import { getProjectsServer, getBlogsServer } from '@/lib/serverData';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://whiteluxerealestate.com';
@@ -55,35 +55,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  let dynamicProjects: MetadataRoute.Sitemap = [];
-  try {
-    const res = await api.getProjects({ limit: 100 });
-    if (res && res.success && res.data) {
-      dynamicProjects = res.data.map((proj: any) => ({
-        url: `${baseUrl}/properties/${proj.slug}`,
-        lastModified: new Date(proj.updatedAt || proj.createdAt),
-        changeFrequency: 'weekly',
-        priority: 0.85,
-      }));
-    }
-  } catch (err) {
-    console.error('Sitemap project fetch error', err);
-  }
+  const projects = await getProjectsServer();
+  const dynamicProjects: MetadataRoute.Sitemap = projects.map((proj: any) => ({
+    url: `${baseUrl}/properties/${proj.slug}`,
+    lastModified: new Date(proj.updatedAt || proj.createdAt),
+    changeFrequency: 'weekly',
+    priority: 0.85,
+  }));
 
-  let dynamicBlogs: MetadataRoute.Sitemap = [];
-  try {
-    const res = await api.getBlogs({ limit: 100 });
-    if (res && res.success && res.data) {
-      dynamicBlogs = res.data.map((blog: any) => ({
-        url: `${baseUrl}/blog/${blog.slug}`,
-        lastModified: new Date(blog.updatedAt || blog.createdAt),
-        changeFrequency: 'weekly',
-        priority: 0.75,
-      }));
-    }
-  } catch (err) {
-    console.error('Sitemap blog fetch error', err);
-  }
+  const blogs = await getBlogsServer();
+  const dynamicBlogs: MetadataRoute.Sitemap = blogs.map((blog: any) => ({
+    url: `${baseUrl}/blog/${blog.slug}`,
+    lastModified: new Date(blog.updatedAt || blog.createdAt),
+    changeFrequency: 'weekly',
+    priority: 0.75,
+  }));
 
   return [...staticRoutes, ...dynamicProjects, ...dynamicBlogs];
 }
