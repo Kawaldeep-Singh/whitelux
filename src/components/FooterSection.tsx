@@ -2,17 +2,30 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { SiteSettings } from '@/types';
+import { Instagram, MessageSquare, Linkedin } from 'lucide-react';
 
-export default function FooterSection() {
+interface FooterSectionProps {
+  settings?: SiteSettings;
+}
+
+export default function FooterSection({ settings }: FooterSectionProps) {
+  const address = settings?.address || 'R-7/109 M3M Urbana, Sector 67, Gurgaon 122102';
+  const phone = settings?.phone || '+91 98152 02102';
+  const email = settings?.email || 'rohitrajmaingi@whiteluxerealestate.com';
+  const hrera = settings?.hreraNumber || settings?.reraNumber || 'RC/HARERA/GGM/3367/2962/2025/244';
+  const instagramUrl = settings?.instagramUrl || settings?.socialLinks?.instagram || 'https://www.instagram.com/rohitmaing77';
+  const linkedinUrl = settings?.linkedinUrl || settings?.socialLinks?.linkedin;
+  const whatsappNumber = settings?.whatsappNumber || '919815202102';
+
   return (
-    <footer className="bg-[#0D0D0D] text-[#A9A294] pt-20 pb-12 border-t border-[#C8A24A]/25">
-      {/* 90% aligned container */}
+    <footer className="bg-[#080808] text-[#A9A294] pt-20 pb-12 border-t border-[#C8A24A]/25">
       <div className="w-[90%] max-w-[1440px] mx-auto space-y-16">
         {/* Top 4-Column Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
-          {/* Col 1: Brand & About line */}
-          <div className="lg:col-span-4 space-y-4">
-            <Link href="/" className="flex items-center gap-3 group">
+          {/* Col 1: Brand & Positioning */}
+          <div className="lg:col-span-5 space-y-4">
+            <Link href="/" className="flex items-center gap-3.5 group">
               <img
                 src="/logo.jpeg"
                 alt="White Luxe Real Estate Logo"
@@ -23,35 +36,40 @@ export default function FooterSection() {
                   WHITE LUXE
                 </span>
                 <span className="text-[9px] uppercase tracking-[0.25em] text-[#C8A24A] font-sans mt-1">
-                  Defining Luxury Real Estate in Gurgaon
+                  ADVISORY. NOT AGENCY.
                 </span>
               </div>
             </Link>
-            <p className="text-xs text-[#A9A294] font-light leading-relaxed pt-1">
-              White Luxe Real Estate is a property consultancy in Gurgaon offering ethical, research-led advice across residential, commercial and retail real estate.
+            <p className="text-xs text-[#A9A294] font-light leading-relaxed max-w-sm pt-1">
+              Founder-led property advisory in Gurugram, offering research-driven client representation across prime residential, commercial assets and leased income.
             </p>
+            <div className="pt-2 text-[11px] text-[#A9A294]/80">
+              <p>
+                <strong className="text-[#C8A24A] font-normal">HRERA:</strong> {hrera}
+              </p>
+            </div>
           </div>
 
           {/* Col 2: Quick Links */}
           <div className="lg:col-span-2 space-y-4">
             <span className="text-[10px] uppercase tracking-[0.25em] text-[#C8A24A] font-sans font-semibold block">
-              QUICK LINKS
+              ADVISORY
             </span>
             <ul className="space-y-2.5 text-xs font-sans">
               <li>
                 <Link href="/" className="hover:text-[#E3C06F] transition-colors">Home</Link>
               </li>
               <li>
+                <Link href="/services" className="hover:text-[#E3C06F] transition-colors">Advisory Practices</Link>
+              </li>
+              <li>
                 <Link href="/properties" className="hover:text-[#E3C06F] transition-colors">Properties</Link>
               </li>
               <li>
-                <Link href="/about" className="hover:text-[#E3C06F] transition-colors">About</Link>
+                <Link href="/blog" className="hover:text-[#E3C06F] transition-colors">Insights</Link>
               </li>
               <li>
-                <Link href="/services" className="hover:text-[#E3C06F] transition-colors">Services</Link>
-              </li>
-              <li>
-                <Link href="/blog" className="hover:text-[#E3C06F] transition-colors">Blog</Link>
+                <Link href="/about" className="hover:text-[#E3C06F] transition-colors">About Rohit</Link>
               </li>
               <li>
                 <Link href="/contact" className="hover:text-[#E3C06F] transition-colors">Contact</Link>
@@ -59,89 +77,101 @@ export default function FooterSection() {
             </ul>
           </div>
 
-          {/* Col 3: Featured Projects */}
-          <div className="lg:col-span-3 space-y-4">
+          {/* Col 3: Corridor & Micro-markets */}
+          <div className="lg:col-span-2 space-y-4">
             <span className="text-[10px] uppercase tracking-[0.25em] text-[#C8A24A] font-sans font-semibold block">
-              FEATURED PROJECTS
+              CORRIDOR
             </span>
-            <ul className="space-y-2.5 text-xs font-sans">
+            <ul className="space-y-2.5 text-xs font-sans font-light">
               <li>
-                <Link href="/properties/tarc-ishva" className="hover:text-[#E3C06F] transition-colors">TARC Ishva (Sec 63A)</Link>
+                <Link href="/properties?location=Golf+Course+Extension" className="hover:text-[#E3C06F] transition-colors">Golf Course Ext. Road</Link>
               </li>
               <li>
-                <Link href="/properties/godrej-astra" className="hover:text-[#E3C06F] transition-colors">Godrej Astra (Sec 54)</Link>
+                <Link href="/properties?location=Sector+63" className="hover:text-[#E3C06F] transition-colors">Sector 63 / 63A</Link>
               </li>
               <li>
-                <Link href="/properties/tulip-monsella" className="hover:text-[#E3C06F] transition-colors">Tulip Monsella (Sec 53)</Link>
+                <Link href="/properties?location=Sector+54" className="hover:text-[#E3C06F] transition-colors">Golf Course Road</Link>
               </li>
               <li>
-                <Link href="/properties/dlf-privana-north" className="hover:text-[#E3C06F] transition-colors">DLF Privana North (Sec 77)</Link>
+                <Link href="/properties?location=Southern+Peripheral" className="hover:text-[#E3C06F] transition-colors">SPR Gurugram</Link>
               </li>
               <li>
-                <Link href="/properties/aipl-autograph" className="hover:text-[#E3C06F] transition-colors">AIPL Autograph (Sec 108)</Link>
+                <Link href="/blog/gurgaons-aspirational-buyer" className="hover:text-[#E3C06F] transition-colors text-[#C8A24A]">Corridor Report →</Link>
               </li>
             </ul>
           </div>
 
-          {/* Col 4: Contact & Schedule */}
+          {/* Col 4: Contact & Social */}
           <div className="lg:col-span-3 space-y-4">
             <span className="text-[10px] uppercase tracking-[0.25em] text-[#C8A24A] font-sans font-semibold block">
-              CONTACT
+              ADVISORY DESK
             </span>
-            <div className="space-y-2 text-xs font-sans font-light">
-              <p className="text-[#F4ECD8]">Sector 49, Gurgaon, Haryana, India</p>
+            <div className="space-y-2.5 text-xs font-sans font-light">
+              <p className="text-[#F4ECD8] leading-relaxed">{address}</p>
               <p>
-                <a href="tel:+919958009492" className="hover:text-[#E3C06F] transition-colors">+91 9958009492</a>
+                <a href={`tel:${phone.replace(/\s+/g, '')}`} className="hover:text-[#E3C06F] transition-colors font-medium text-[#F4ECD8]">
+                  {phone}
+                </a>
               </p>
               <p>
-                <a href="mailto:support@whiteluxe.com" className="hover:text-[#E3C06F] transition-colors">support@whiteluxe.com</a>
+                <a href={`mailto:${email}`} className="hover:text-[#E3C06F] transition-colors break-all">
+                  {email}
+                </a>
               </p>
-              <p className="text-[#C8A24A]">Mon-Sat, 10:00 AM - 7:00 PM</p>
             </div>
 
-            <div className="pt-2 flex items-center gap-4 text-xs font-sans">
-              <a
-                href="https://www.instagram.com/whiteluxe_real_estate/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-[#E3C06F] transition-colors"
-              >
-                Instagram
-              </a>
-              <span>•</span>
-              <a
-                href="https://www.facebook.com/profile.php"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-[#E3C06F] transition-colors"
-              >
-                Facebook
-              </a>
-              <span>•</span>
-              <a
-                href="https://wa.me/919958009492"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-[#E3C06F] transition-colors"
-              >
-                WhatsApp
-              </a>
+            {/* Social Icons (Instagram, WhatsApp, LinkedIn only) */}
+            <div className="flex items-center gap-3 pt-2">
+              {instagramUrl && (
+                <a
+                  href={instagramUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 rounded-[2px] bg-[#14110C] border border-[#C8A24A]/30 hover:border-[#C8A24A] flex items-center justify-center text-[#C8A24A] transition-colors"
+                  aria-label="Instagram"
+                >
+                  <Instagram size={15} />
+                </a>
+              )}
+              {whatsappNumber && (
+                <a
+                  href={`https://wa.me/${whatsappNumber}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 rounded-[2px] bg-[#14110C] border border-[#C8A24A]/30 hover:border-[#C8A24A] flex items-center justify-center text-[#C8A24A] transition-colors"
+                  aria-label="WhatsApp"
+                >
+                  <MessageSquare size={15} />
+                </a>
+              )}
+              {linkedinUrl && (
+                <a
+                  href={linkedinUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 rounded-[2px] bg-[#14110C] border border-[#C8A24A]/30 hover:border-[#C8A24A] flex items-center justify-center text-[#C8A24A] transition-colors"
+                  aria-label="LinkedIn"
+                >
+                  <Linkedin size={15} />
+                </a>
+              )}
             </div>
           </div>
         </div>
 
-        {/* Legal Disclaimer Line & Copyright */}
-        <div className="pt-8 border-t border-[#C8A24A]/20 space-y-4 text-center md:text-left text-[11px] font-sans font-light text-[#A9A294]/80">
-          <p className="leading-relaxed">
-            White Luxe Real Estate is a property consultancy and advisory firm acting solely as an intermediary between buyers, sellers and developers. All information, plans and prices are indicative. Visitors are advised to independently verify all project details with the respective developer and Haryana RERA before deciding.
+        {/* Legal Disclaimer Box */}
+        <div className="pt-6 border-t border-[#C8A24A]/15 text-[11px] text-[#A9A294]/65 leading-relaxed font-sans">
+          <p>
+            White Luxe acts as an advisor and intermediary. All information is indicative; verify details with the developer and Haryana RERA before any decision.
           </p>
-          <div className="flex flex-col md:flex-row items-center justify-between gap-2 pt-2 text-[10px] text-[#A9A294]/60">
-            <p>© 2026 White Luxe Real Estate. All rights reserved.</p>
-            <div className="flex items-center gap-4">
-              <Link href="/privacy" className="hover:text-[#E3C06F] transition-colors">Privacy Policy</Link>
-              <span>•</span>
-              <Link href="/disclaimer" className="hover:text-[#E3C06F] transition-colors">Disclaimer</Link>
-            </div>
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="pt-4 border-t border-[#C8A24A]/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-sans text-[#A9A294]/70">
+          <p>© 2026 White Luxe Real Estate. All rights reserved.</p>
+          <div className="flex items-center gap-6">
+            <Link href="/privacy" className="hover:text-[#C8A24A] transition-colors">Privacy Policy</Link>
+            <Link href="/disclaimer" className="hover:text-[#C8A24A] transition-colors">RERA Disclaimer</Link>
           </div>
         </div>
       </div>

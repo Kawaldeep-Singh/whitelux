@@ -44,6 +44,10 @@ export interface Project {
   seoTitle?: string;
   seoDescription?: string;
   featured: boolean;
+  isPick?: boolean;
+  pickRank?: number;
+  pickBadge?: string;
+  pickNote?: string;
   publishStatus: 'draft' | 'published';
   createdAt: string;
   updatedAt: string;
@@ -83,6 +87,8 @@ export interface Lead {
   phone: string;
   email: string;
   interestedIn?: string;
+  budget?: string;
+  timeline?: string;
   message?: string;
   projectId?: string;
   projectSlug?: string;
@@ -113,9 +119,29 @@ export interface SocialLinks {
   youtube?: string;
 }
 
+export interface CredibilityItem {
+  label: string;
+  value: string;
+  logo?: string;
+}
+
+export interface CorridorSettings {
+  heading: string;
+  body?: string;
+  reportSlug?: string;
+  highlightedSectors: Array<{ sector: string; label: string }>;
+}
+
+export interface ReelItem {
+  title: string;
+  url: string;
+  thumbnail?: string;
+}
+
 export interface SiteSettings {
   _id?: string;
   brandName: string;
+  brandTagline?: string;
   tagline: string;
   shortDescription: string;
   aboutLine: string;
@@ -123,12 +149,25 @@ export interface SiteSettings {
   phone: string;
   email: string;
   whatsappNumber: string;
+  whatsappCtaText?: string;
   workingHours: string;
   experienceYears: string;
-  happyClients: string;
-  projectsCurated: string;
-  transactionVolume: string;
+  happyClients?: string;
+  projectsCurated?: string;
+  transactionVolume?: string;
+  hreraNumber?: string;
   reraNumber: string;
+  founderName?: string;
+  founderTitle?: string;
+  founderPortrait?: string;
+  founderNoteQuote?: string;
+  founderNoteBody?: string;
+  instagramHandle?: string;
+  instagramUrl?: string;
+  linkedinUrl?: string;
+  credibility?: CredibilityItem[];
+  corridor?: CorridorSettings;
+  reels?: ReelItem[];
   socialLinks: SocialLinks;
 }
 

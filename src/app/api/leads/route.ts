@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    const { name, phone, email, interestedIn, message, projectId, projectSlug, projectName, source } = body;
+    const { name, phone, email, interestedIn, budget, timeline, message, projectId, projectSlug, projectName, source } = body;
 
     if (!name || !phone || !email) {
       return NextResponse.json(
@@ -32,6 +32,8 @@ export async function POST(req: NextRequest) {
       phone: phone.trim(),
       email: email.trim().toLowerCase(),
       interestedIn: interestedIn?.trim(),
+      budget: budget?.trim(),
+      timeline: timeline?.trim(),
       message: message?.trim(),
       projectId: projectId || undefined,
       projectSlug: projectSlug?.trim(),

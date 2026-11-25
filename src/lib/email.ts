@@ -8,7 +8,7 @@ const EMAIL_PASS = process.env.EMAIL_PASS;
 const EMAIL_SERVICE = process.env.EMAIL_SERVICE || 'gmail';
 const EMAIL_HOST = process.env.EMAIL_HOST || 'smtp.gmail.com';
 const EMAIL_PORT = parseInt(process.env.EMAIL_PORT || '587', 10);
-const EMAIL_FROM = process.env.EMAIL_FROM || '"White Luxe Leads" <support@whiteluxe.com>';
+const EMAIL_FROM = process.env.EMAIL_FROM || '"White Luxe Leads" <rohitrajmaingi@whiteluxerealestate.com>';
 const ADMIN_ALERT_EMAIL = process.env.ADMIN_ALERT_EMAIL || 'kawaldeep8395@gmail.com';
 
 if (EMAIL_USER && EMAIL_PASS) {
@@ -59,6 +59,22 @@ export async function sendLeadAlertEmail(lead: ILead): Promise<void> {
           <td style="padding: 8px; font-weight: bold; color: #555;">Interested In:</td>
           <td style="padding: 8px; color: #111;">${lead.interestedIn || 'N/A'}</td>
         </tr>
+        ${
+          lead.budget
+            ? `<tr>
+                <td style="padding: 8px; font-weight: bold; color: #555;">Budget:</td>
+                <td style="padding: 8px; color: #111;">${lead.budget}</td>
+              </tr>`
+            : ''
+        }
+        ${
+          lead.timeline
+            ? `<tr style="background-color: #f9f9f9;">
+                <td style="padding: 8px; font-weight: bold; color: #555;">Timeline:</td>
+                <td style="padding: 8px; color: #111;">${lead.timeline}</td>
+              </tr>`
+            : ''
+        }
         ${
           lead.projectName
             ? `<tr>

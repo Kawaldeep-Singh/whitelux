@@ -37,7 +37,7 @@ export default function PrivacyPage() {
             By submitting your details on our website, you voluntarily consent to being contacted via phone calls, WhatsApp, SMS, or email for relevant property updates, offers, and advisory communications.
           </p>
           <p>
-            You may request deletion or modification of your data at any time by contacting our advisory desk at <a href="mailto:support@whiteluxe.com" className="text-[#E3C06F] underline">support@whiteluxe.com</a> or calling <a href="tel:+919958009492" className="text-[#E3C06F]">+91 9958009492</a>.
+            You may request deletion or modification of your data at any time by contacting our advisory desk at <a href="mailto:rohitrajmaingi@whiteluxerealestate.com" className="text-[#E3C06F] underline">rohitrajmaingi@whiteluxerealestate.com</a> or calling <a href="tel:+919815202102" className="text-[#E3C06F]">+91 98152 02102</a>.
           </p>
         </section>
       </main>

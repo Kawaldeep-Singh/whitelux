@@ -107,7 +107,7 @@ export default function CtaSection() {
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="e.g. Vikram Malhotra"
+                  placeholder="e.g. Rohit Raj Maingi"
                   className="w-full bg-[#0D0D0D] border border-[#C8A24A]/25 rounded-[2px] px-4 py-3 text-xs text-[#F4ECD8] placeholder-[#555] focus:outline-none focus:border-[#C8A24A] transition-colors"
                 />
               </div>
@@ -121,7 +121,7 @@ export default function CtaSection() {
                   required
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  placeholder="+91 98100 XXXXX"
+                  placeholder="+91 98152 02102"
                   className="w-full bg-[#0D0D0D] border border-[#C8A24A]/25 rounded-[2px] px-4 py-3 text-xs text-[#F4ECD8] placeholder-[#555] focus:outline-none focus:border-[#C8A24A] transition-colors"
                 />
               </div>
@@ -137,7 +137,7 @@ export default function CtaSection() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="vikram@domain.com"
+                  placeholder="rohitrajmaingi@whiteluxerealestate.com"
                   className="w-full bg-[#0D0D0D] border border-[#C8A24A]/25 rounded-[2px] px-4 py-3 text-xs text-[#F4ECD8] placeholder-[#555] focus:outline-none focus:border-[#C8A24A] transition-colors"
                 />
               </div>

@@ -1,7 +1,7 @@
 # White Luxe Real Estate — Dynamic Portal & Single-Admin CMS
 
-> **Tagline:** Beyond Transactions, Building Relationships  
-> **Location:** Sector 49, Gurgaon, Haryana, India  
+> **Tagline:** Advisory. Not Agency.  
+> **Location:** R-7/109 M3M Urbana, Sector 67, Gurgaon 122102  
 > **Brand Persona:** Ethical, strategic, refined, confident, and calm luxury real estate consultancy.
 
 ---

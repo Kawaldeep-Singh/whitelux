@@ -19,10 +19,10 @@ export default function Navbar() {
 
   const navLinks = [
     { label: 'Home', href: '/' },
+    { label: 'Advisory', href: '/services' },
     { label: 'Properties', href: '/properties' },
-    { label: 'About', href: '/about' },
-    { label: 'Services', href: '/services' },
-    { label: 'Blog', href: '/blog' },
+    { label: 'Insights', href: '/blog' },
+    { label: 'About Rohit', href: '/about' },
     { label: 'Contact', href: '/contact' },
   ];
 
@@ -43,14 +43,14 @@ export default function Navbar() {
             transition={{ duration: 0.3 }}
             src="/logo.jpeg"
             alt="White Luxe Real Estate Logo"
-            className="h-10 md:h-11 w-auto object-contain rounded-[2px]"
+            className="h-12 md:h-14 w-auto object-contain rounded-[2px]"
           />
           <div className="flex flex-col">
-            <span className="font-serif text-lg md:text-xl tracking-[0.2em] text-[#F4ECD8] group-hover:text-[#E3C06F] transition-colors leading-none font-medium">
+            <span className="font-serif text-xl md:text-2xl tracking-[0.2em] text-[#F4ECD8] group-hover:text-[#E3C06F] transition-colors leading-none font-medium">
               WHITE LUXE
             </span>
-            <span className="text-[9px] uppercase tracking-[0.25em] text-[#C8A24A] font-sans mt-1">
-              Defining Luxury Real Estate in Gurgaon
+            <span className="text-[10px] md:text-[11px] uppercase tracking-[0.24em] text-[#C8A24A] font-sans mt-1 font-medium">
+              by Rohit Raj Maingi
             </span>
           </div>
         </Link>
@@ -73,9 +73,9 @@ export default function Navbar() {
         <div className="hidden lg:flex items-center">
           <Link
             href="/contact"
-            className="relative px-6 py-2.5 bg-gradient-to-r from-[#B8892F] via-[#C8A24A] to-[#E8C872] text-[#0D0D0D] font-sans font-semibold text-xs uppercase tracking-[0.2em] rounded-[2px] transition-all duration-300 hover:scale-[1.03] active:scale-[0.98] hover:shadow-[0_0_20px_rgba(200,162,74,0.4)] overflow-hidden group"
+            className="relative px-5 py-2.5 bg-gradient-to-r from-[#B8892F] via-[#C8A24A] to-[#E8C872] text-[#0D0D0D] font-sans font-semibold text-xs uppercase tracking-[0.16em] rounded-[2px] transition-all duration-300 hover:scale-[1.03] active:scale-[0.98] hover:shadow-[0_0_20px_rgba(200,162,74,0.4)] overflow-hidden group"
           >
-            <span className="relative z-10">Enquire Now</span>
+            <span className="relative z-10">Book a Private Consultation</span>
             <span className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
           </Link>
         </div>
@@ -116,9 +116,9 @@ export default function Navbar() {
               <Link
                 href="/contact"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block w-full text-center py-3 bg-gradient-to-r from-[#B8892F] to-[#E8C872] text-[#0D0D0D] font-semibold text-xs uppercase tracking-[0.2em] rounded-[2px] shadow-lg active:scale-98 transition-transform"
+                className="block w-full text-center py-3 bg-gradient-to-r from-[#B8892F] to-[#E8C872] text-[#0D0D0D] font-semibold text-xs uppercase tracking-[0.16em] rounded-[2px] shadow-lg active:scale-98 transition-transform"
               >
-                Enquire Now
+                Book a Private Consultation
               </Link>
             </div>
           </motion.div>

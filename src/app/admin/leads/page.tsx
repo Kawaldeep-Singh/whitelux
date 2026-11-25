@@ -219,6 +219,12 @@ export default function AdminLeadsPage() {
                           {lead.projectName || lead.interestedIn || 'General Inquiry'}
                         </span>
                       </div>
+                      {(lead.budget || lead.timeline) && (
+                        <div className="text-[10px] text-[#E3C06F] mt-0.5 flex gap-2 font-medium">
+                          {lead.budget && <span>Budget: {lead.budget}</span>}
+                          {lead.timeline && <span>• {lead.timeline}</span>}
+                        </div>
+                      )}
                       {lead.message && (
                         <div className="text-[11px] text-[#888] line-clamp-1 mt-0.5">
                           "{lead.message}"
@@ -348,6 +354,23 @@ export default function AdminLeadsPage() {
                   : selectedLead.interestedIn || 'General Consultation'}
               </p>
             </div>
+
+            {(selectedLead.budget || selectedLead.timeline) && (
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <span className="text-[#7E7B73] text-[10px] uppercase">Budget</span>
+                  <p className="text-xs text-[#E3C06F] bg-[#181818] p-2 rounded border border-[#262626] font-medium">
+                    {selectedLead.budget || 'Not specified'}
+                  </p>
+                </div>
+                <div className="space-y-1">
+                  <span className="text-[#7E7B73] text-[10px] uppercase">Timeline</span>
+                  <p className="text-xs text-[#E3C06F] bg-[#181818] p-2 rounded border border-[#262626] font-medium">
+                    {selectedLead.timeline || 'Not specified'}
+                  </p>
+                </div>
+              </div>
+            )}
 
             {selectedLead.message && (
               <div className="space-y-1.5">

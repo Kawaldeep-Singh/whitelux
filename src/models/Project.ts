@@ -45,6 +45,10 @@ export interface IProject extends Document {
   seoTitle?: string;
   seoDescription?: string;
   featured: boolean;
+  isPick: boolean;
+  pickRank?: number;
+  pickBadge?: string;
+  pickNote?: string;
   publishStatus: 'draft' | 'published';
   createdAt: Date;
   updatedAt: Date;
@@ -99,6 +103,10 @@ const ProjectSchema = new Schema<IProject>(
     seoTitle: { type: String },
     seoDescription: { type: String },
     featured: { type: Boolean, default: false, index: true },
+    isPick: { type: Boolean, default: false, index: true },
+    pickRank: { type: Number, default: 99 },
+    pickBadge: { type: String, trim: true, default: '' },
+    pickNote: { type: String, trim: true, default: '' },
     publishStatus: {
       type: String,
       enum: ['draft', 'published'],

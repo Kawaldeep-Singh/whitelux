@@ -18,6 +18,8 @@ export default function ProjectEnquiryCard({
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
+  const [budget, setBudget] = useState('');
+  const [timeline, setTimeline] = useState('');
   const [botField, setBotField] = useState('');
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -35,11 +37,13 @@ export default function ProjectEnquiryCard({
         name,
         phone,
         email,
+        budget,
+        timeline,
         projectId,
         projectSlug,
         projectName,
         interestedIn: projectName,
-        message: `Inquiry submitted for ${projectName}`,
+        message: `Inquiry submitted for ${projectName}. Budget: ${budget || 'Not specified'}, Timeline: ${timeline || 'Not specified'}`,
         botField,
       });
       setSubmitted(true);
@@ -54,9 +58,9 @@ export default function ProjectEnquiryCard({
     return (
       <div className="bg-[#141414] border border-[#C9A24B]/40 rounded-lg p-6 text-center text-[#FAF7F0] shadow-xl">
         <CheckCircle2 size={36} className="text-[#C9A24B] mx-auto mb-3" />
-        <h3 className="font-serif text-xl text-[#FAF7F0]">Spot Reserved</h3>
+        <h3 className="font-serif text-xl text-[#FAF7F0]">Allocation Request Received</h3>
         <p className="text-xs text-[#C9C6C0] mt-2 leading-relaxed font-light">
-          Thank you, <span className="text-[#C9A24B]">{name}</span>. Our senior advisory partner will connect with you shortly with priority allocations for <span className="font-semibold">{projectName}</span>.
+          Thank you, <span className="text-[#C9A24B]">{name}</span>. Rohit Raj Maingi or an advisory associate will connect with you directly regarding <span className="font-semibold">{projectName}</span>.
         </p>
       </div>
     );
@@ -66,11 +70,11 @@ export default function ProjectEnquiryCard({
     <div className="bg-[#141414] border border-[#2B2B2B] rounded-lg p-6 md:p-8 text-[#FAF7F0] shadow-2xl relative">
       <div className="mb-6">
         <span className="text-[10px] uppercase tracking-widest text-[#C9A24B] font-semibold block mb-1">
-          EXCLUSIVE ALLOCATION
+          PRIVATE ALLOCATION ENQUIRY
         </span>
-        <h3 className="font-serif text-2xl text-[#FAF7F0]">Let&apos;s Find Your Dream Home!</h3>
+        <h3 className="font-serif text-2xl text-[#FAF7F0]">Request Private Briefing</h3>
         <p className="text-xs text-[#9A8F7E] mt-1.5 font-light leading-relaxed">
-          Please fill out the form below; our expert will get back to you with verified pricing and unit availability.
+          Direct advisory consultation, verified floor plans, unlisted allocations, and transparent underwriting.
         </p>
       </div>
 
@@ -102,7 +106,7 @@ export default function ProjectEnquiryCard({
             required
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="e.g. Vikram Malhotra"
+            placeholder="e.g. Rohit Raj Maingi"
             className="w-full bg-[#1C1B1B] border border-[#333] rounded px-3.5 py-2.5 text-xs text-[#FAF7F0] placeholder-[#555] focus:outline-none focus:border-[#C9A24B]"
           />
         </div>
@@ -116,7 +120,7 @@ export default function ProjectEnquiryCard({
             required
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-            placeholder="+91 98100 XXXXX"
+            placeholder="+91 98152 02102"
             className="w-full bg-[#1C1B1B] border border-[#333] rounded px-3.5 py-2.5 text-xs text-[#FAF7F0] placeholder-[#555] focus:outline-none focus:border-[#C9A24B]"
           />
         </div>
@@ -130,9 +134,42 @@ export default function ProjectEnquiryCard({
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="vikram@domain.com"
+            placeholder="rohitrajmaingi@whiteluxerealestate.com"
             className="w-full bg-[#1C1B1B] border border-[#333] rounded px-3.5 py-2.5 text-xs text-[#FAF7F0] placeholder-[#555] focus:outline-none focus:border-[#C9A24B]"
           />
+        </div>
+
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="block text-[11px] uppercase tracking-wider text-[#C9C6C0] mb-1.5 font-medium">
+              Budget Bracket
+            </label>
+            <select
+              value={budget}
+              onChange={(e) => setBudget(e.target.value)}
+              className="w-full bg-[#1C1B1B] border border-[#333] rounded px-3 py-2.5 text-xs text-[#FAF7F0] focus:outline-none focus:border-[#C9A24B]"
+            >
+              <option value="">Select</option>
+              <option value="₹5 Cr – ₹10 Cr">₹5 Cr – ₹10 Cr</option>
+              <option value="₹10 Cr – ₹20 Cr">₹10 Cr – ₹20 Cr</option>
+              <option value="₹20 Cr+">₹20 Cr+</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-[11px] uppercase tracking-wider text-[#C9C6C0] mb-1.5 font-medium">
+              Timeline
+            </label>
+            <select
+              value={timeline}
+              onChange={(e) => setTimeline(e.target.value)}
+              className="w-full bg-[#1C1B1B] border border-[#333] rounded px-3 py-2.5 text-xs text-[#FAF7F0] focus:outline-none focus:border-[#C9A24B]"
+            >
+              <option value="">Select</option>
+              <option value="Immediate (0-30 days)">Immediate (0-30 days)</option>
+              <option value="1-3 months">1-3 months</option>
+              <option value="Exploratory">Exploratory</option>
+            </select>
+          </div>
         </div>
 
         <button
@@ -144,7 +181,7 @@ export default function ProjectEnquiryCard({
             <div className="w-4 h-4 border-2 border-[#0B0B0B] border-t-transparent rounded-full animate-spin"></div>
           ) : (
             <>
-              <span>Reserve Your Spot</span>
+              <span>Request Private Briefing</span>
               <ArrowRight size={14} />
             </>
           )}

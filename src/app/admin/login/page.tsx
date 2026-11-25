@@ -67,7 +67,7 @@ export default function AdminLoginPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@whiteluxe.com"
+                placeholder="rohitrajmaingi@whiteluxerealestate.com"
                 className="w-full bg-[#1A1A1A] border border-[#333] rounded px-4 py-2.5 pl-10 text-sm text-[#FAF7F0] placeholder-[#555] focus:outline-none focus:border-[#C9A24B] transition-colors"
               />
             </div>

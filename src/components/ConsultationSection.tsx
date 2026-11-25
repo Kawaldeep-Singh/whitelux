@@ -177,7 +177,7 @@ export function ConsultationSection() {
                       <input
                         required
                         className="w-full px-4 py-2.5 rounded-xl bg-[#202020] border border-white/10 text-[#FAF7F0] placeholder:text-[#6e665a] font-body-md text-body-md focus:outline-none focus:border-primary/80 focus:ring-1 focus:ring-primary/40 transition-colors"
-                        placeholder="e.g. Vikram Malhotra"
+                        placeholder="e.g. Rohit Raj Maingi"
                         type="text"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -192,7 +192,7 @@ export function ConsultationSection() {
                       <input
                         required
                         className="w-full px-4 py-2.5 rounded-xl bg-[#202020] border border-white/10 text-[#FAF7F0] placeholder:text-[#6e665a] font-body-md text-body-md focus:outline-none focus:border-primary/80 focus:ring-1 focus:ring-primary/40 transition-colors"
-                        placeholder="+91 98XXX XXXXX"
+                        placeholder="+91 98152 02102"
                         type="tel"
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
@@ -209,7 +209,7 @@ export function ConsultationSection() {
                       <input
                         required
                         className="w-full px-4 py-2.5 rounded-xl bg-[#202020] border border-white/10 text-[#FAF7F0] placeholder:text-[#6e665a] font-body-md text-body-md focus:outline-none focus:border-primary/80 focus:ring-1 focus:ring-primary/40 transition-colors"
-                        placeholder="v.malhotra@holding.com"
+                        placeholder="rohitrajmaingi@whiteluxerealestate.com"
                         type="email"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}

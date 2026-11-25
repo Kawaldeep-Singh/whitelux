@@ -3,19 +3,43 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-export default function TrustStrip() {
+interface TrustStripProps {
+  experienceYears?: string;
+  happyClients?: string;
+  projectsCurated?: string;
+  transactionVolume?: string;
+}
+
+export default function TrustStrip({
+  experienceYears = '30+',
+  happyClients = '',
+  projectsCurated = '',
+  transactionVolume = '',
+}: TrustStripProps) {
+  // Only show stats that have verified non-empty values
   const stats = [
-    { value: '10+', label: 'Years of Experience' },
-    { value: '500+', label: 'Happy Clients' },
-    { value: '50+', label: 'Projects Curated' },
-    { value: '₹1,000 Cr+', label: 'in Transactions' },
+    { value: experienceYears || '30+', label: 'Years Advisory Lineage' },
+    ...(happyClients ? [{ value: happyClients, label: 'Happy Clients' }] : []),
+    ...(projectsCurated ? [{ value: projectsCurated, label: 'Curated Projects' }] : []),
+    ...(transactionVolume ? [{ value: transactionVolume, label: 'in Transactions' }] : []),
   ];
 
+  if (stats.length === 0) return null;
+
   return (
-    <section className="bg-[#14110C] border-y border-[#C8A24A]/20 py-14">
-      {/* 90% aligned container */}
+    <section className="bg-[#14110C] border-y border-[#C8A24A]/20 py-12">
       <div className="w-[90%] max-w-[1440px] mx-auto">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 text-center">
+        <div
+          className={`grid gap-8 text-center items-center justify-center ${
+            stats.length === 1
+              ? 'grid-cols-1 max-w-xs mx-auto'
+              : stats.length === 2
+              ? 'grid-cols-2 max-w-lg mx-auto'
+              : stats.length === 3
+              ? 'grid-cols-1 sm:grid-cols-3 max-w-3xl mx-auto'
+              : 'grid-cols-2 md:grid-cols-4'
+          }`}
+        >
           {stats.map((stat, idx) => (
             <motion.div
               key={idx}
@@ -23,13 +47,12 @@ export default function TrustStrip() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: idx * 0.1 }}
-              whileHover={{ y: -3 }}
-              className="space-y-2 p-2 transition-transform duration-300 cursor-default"
+              className="space-y-2 p-2 cursor-default"
             >
               <div className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal text-[#E3C06F] tracking-tight">
                 {stat.value}
               </div>
-              <div className="text-[11px] uppercase tracking-[0.2em] text-[#A9A294] font-sans">
+              <div className="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-[#A9A294] font-sans font-light">
                 {stat.label}
               </div>
             </motion.div>

@@ -67,10 +67,10 @@ export function Header() {
         <div className="flex items-center gap-6">
           <a
             className="hidden xl:flex items-center gap-2 font-label-sm text-label-sm tracking-wider text-[#d4c9b8] hover:text-primary transition-colors"
-            href="tel:+919810058930"
+            href="tel:+919815202102"
           >
             <span className="material-symbols-outlined text-[16px] text-primary">call</span>
-            <span>+91 98100 LUXE</span>
+            <span>+91 98152 02102</span>
           </a>
 
           <Link

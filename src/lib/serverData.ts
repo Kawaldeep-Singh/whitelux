@@ -1,7 +1,9 @@
 import { connectDB } from '@/lib/db';
 import { Project as ProjectModel } from '@/models/Project';
 import { Blog as BlogModel } from '@/models/Blog';
-import { Project, Blog } from '@/types';
+import { Settings as SettingsModel } from '@/models/Settings';
+import { Testimonial as TestimonialModel } from '@/models/Testimonial';
+import { Project, Blog, SiteSettings, Testimonial } from '@/types';
 
 // Authentic 5 Projects from whiteluxerealestate.com
 export const AUTHENTIC_PROJECTS: Project[] = [
@@ -84,6 +86,11 @@ export const AUTHENTIC_PROJECTS: Project[] = [
     seoDescription:
       'TARC Ishva Sector 63A Gurgaon offers ultra-luxury 4 BHK apartments with world-class amenities, prime Golf Course Extension Road location, and premium lifestyle living.',
     featured: true,
+    isPick: true,
+    pickRank: 1,
+    pickBadge: 'Top Pick',
+    pickNote:
+      'My focused pick for the highest appreciation potential in the corridor, next to DLF The Arbour.',
     publishStatus: 'published',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
@@ -163,6 +170,10 @@ export const AUTHENTIC_PROJECTS: Project[] = [
     seoDescription:
       'Godrej Astra Sector 54 Gurgaon offers ultra-luxury 3 & 4 BHK apartments on Golf Course Road with premium amenities, iconic design, and elite lifestyle.',
     featured: true,
+    isPick: true,
+    pickRank: 2,
+    pickBadge: '',
+    pickNote: '',
     publishStatus: 'published',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
@@ -257,6 +268,10 @@ export const AUTHENTIC_PROJECTS: Project[] = [
     seoDescription:
       'Tulip Monsella Sector 53 Gurgaon offers ultra-luxury 3, 4 & 5 BHK apartments on Golf Course Road with premium amenities and iconic high-rise living.',
     featured: true,
+    isPick: true,
+    pickRank: 3,
+    pickBadge: '',
+    pickNote: '',
     publishStatus: 'published',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
@@ -336,6 +351,10 @@ export const AUTHENTIC_PROJECTS: Project[] = [
     seoDescription:
       'DLF Privana North Sector 77 Gurgaon offers ultra-luxury 4 BHK apartments & penthouses with world-class amenities on Southern Peripheral Road.',
     featured: true,
+    isPick: false,
+    pickRank: 99,
+    pickBadge: '',
+    pickNote: '',
     publishStatus: 'published',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
@@ -417,6 +436,10 @@ export const AUTHENTIC_PROJECTS: Project[] = [
     seoDescription:
       'AIPL Autograph Sector 108 Gurgaon offers premium Grade-A office spaces, retail outlets, and restaurants with modern infrastructure and high ROI potential.',
     featured: true,
+    isPick: false,
+    pickRank: 99,
+    pickBadge: '',
+    pickNote: '',
     publishStatus: 'published',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
@@ -425,6 +448,75 @@ export const AUTHENTIC_PROJECTS: Project[] = [
 
 // Authentic Editorial Blogs
 export const AUTHENTIC_BLOGS: Blog[] = [
+  {
+    _id: 'blog-aspirational-buyer',
+    title:
+      "Gurgaon's Aspirational Buyer: Why bigger, branded and scarce homes are winning the affluent buyer",
+    slug: 'gurgaons-aspirational-buyer',
+    summary:
+      'Across Golf Course Extension Road and prime micro-markets of Gurugram, an unmistakable structural shift is underway. The affluent buyer is no longer choosing based on price per square foot alone; they are gravitating decisively towards larger floor plates, tier-1 institutional developer brands, and projects with genuine physical and locational scarcity.',
+    category: 'Market Insights',
+    author: 'Rohit Raj Maingi',
+    readTime: '5 min read',
+    coverImage: 'https://www.whiteluxerealestate.com/img/Trac-ishca/Main-banner.webp',
+    tags: ['Golf Course Extension Road', 'Luxury', 'Investment'],
+    featured: true,
+    publishStatus: 'published',
+    publishedAt: '2026-10-01T00:00:00.000Z',
+    seoTitle: "Gurgaon's Aspirational Buyer | Rohit Raj Maingi | White Luxe",
+    seoDescription:
+      'Why bigger, branded and scarce homes are winning affluent buyers on Golf Course Extension Road. Strategic advisory insights by Rohit Raj Maingi.',
+    content: `
+      <p>Across Golf Course Extension Road and prime micro-markets of Gurugram, an unmistakable structural shift is underway. The affluent buyer is no longer choosing based on price per square foot alone; they are gravitating decisively towards larger floor plates, tier-1 institutional developer brands, and projects with genuine physical and locational scarcity.</p>
+
+      <h2>THE RISE OF THE ASPIRATIONAL BUYER</h2>
+      <p>Over the last three decades advising private wealth and family offices on real estate allocation, I have witnessed distinct market cycles. Today’s luxury buyer in Gurugram is distinctly different. They are corporate executives, startup founders, and multi-generational business families who prioritize operational excellence, world-class amenities, and pristine property management over speculative appreciation.</p>
+
+      <blockquote>Large homes + a powerful brand + limited supply can create extraordinary demand.</blockquote>
+
+      <h2>THE THREE PILLARS OF CAPITAL APPRECIATION</h2>
+      <p>When assessing luxury residential assets along Golf Course Extension Road, three fundamental drivers dictate long-term value preservation and liquidity:</p>
+      <ul>
+        <li><strong>Institutional Developer Pedigree:</strong> Developers with proven balance sheets, transparent escrow management, and immaculate execution track records consistently command a 20% to 35% premium over unbranded counterparts.</li>
+        <li><strong>Typology and Volumetric Scale:</strong> Expansive 3,500+ sq. ft. residences with four-side open layouts, high ceiling clearances, and private lift lobbies are inherently insulated from mass inventory gluts.</li>
+        <li><strong>Micro-Market Infrastructure:</strong> Proximity to major transit nodes, multi-lane arterial corridors, and high-street social infrastructure ensures enduring tenant and end-user demand.</li>
+      </ul>
+
+      <h2>FIVE QUESTIONS EVERY LUXURY INVESTOR MUST ASK</h2>
+      <p>Before committing capital to any pre-launch or under-construction luxury development, run through this five-point due diligence framework:</p>
+      <ol>
+        <li>
+          <h3>What is the developer's historical delivery record and debt profile?</h3>
+          <p>Examine their debt-to-equity ratio, past project handover timelines, and whether past buyers received their conveyed titles without protracted litigation.</p>
+        </li>
+        <li>
+          <h3>Is the project registered with Haryana RERA and backed by verified escrow accounts?</h3>
+          <p>Confirm the HRERA registration number and verify that 70% of collections are legally ring-fenced for dedicated project construction.</p>
+        </li>
+        <li>
+          <h3>What is the net density and land efficiency of the master plan?</h3>
+          <p>Fewer towers per acre translate directly into lower common-area congestion, quieter community living, and sustained secondary market scarcity.</p>
+        </li>
+        <li>
+          <h3>How is the payment milestone structure aligned with verifiable civil milestones?</h3>
+          <p>Insist on construction-linked plans (CLP) or milestone-verified structures rather than aggressive upfront disbursement schedules.</p>
+        </li>
+        <li>
+          <h3>What is the true holding cost and exit liquidity profile?</h3>
+          <p>Calculate total all-inclusive acquisition costs including IFMS, GST, registration, and ongoing maintenance charges to understand net yields upon exit.</p>
+        </li>
+      </ol>
+
+      <h2>THE ADVISORY PERSPECTIVE</h2>
+      <p>Real estate is rarely a homogeneous asset class. Along Golf Course Extension Road, micro-markets just one kilometer apart behave with starkly different risk-reward profiles. Choosing the right corridor, developer, and unit tier requires rigorous due diligence and unbiased advisory.</p>
+
+      <div class="mt-8 pt-6 border-t border-[#C8A24A]/20 text-xs text-[#F6F0E3]/60">
+        <p>Disclaimer: Personal market perspective and analytical commentary. Real estate investments are subject to market risks. Readers are advised to verify statutory project registrations and approvals on the official Haryana Real Estate Regulatory Authority (HARERA) portal (hrera.gov.in) before entering into any financial or contractual commitments. White Luxe acts strictly as an advisory intermediary.</p>
+      </div>
+    `,
+    createdAt: '2026-10-01T00:00:00.000Z',
+    updatedAt: '2026-10-01T00:00:00.000Z',
+  },
   {
     _id: 'blog-1',
     title: '7 Things to Check Before Buying a Luxury Apartment in Gurgaon',
@@ -659,4 +751,96 @@ export async function getBlogsServer(filters?: {
     }
     return true;
   });
+}
+
+// 5. Authentic Settings Fallback
+export const AUTHENTIC_SETTINGS: SiteSettings = {
+  brandName: 'White Luxe Real Estate',
+  brandTagline: 'Advisory. Not Agency.',
+  tagline: 'Advisory. Not Agency.',
+  shortDescription: 'Ethical and strategic property advisors in Gurgaon.',
+  aboutLine:
+    'White Luxe Real Estate is a founder-led property consultancy in Gurgaon offering strategic, research-led advisory across luxury residential, commercial assets and leased income.',
+  address: 'R-7/109 M3M Urbana, Sector 67, Gurgaon 122102',
+  phone: '+91 98152 02102',
+  email: 'rohitrajmaingi@whiteluxerealestate.com',
+  whatsappNumber: '919815202102',
+  whatsappCtaText:
+    'Hello Rohit, I would like to schedule a private advisory consultation regarding Gurgaon luxury properties.',
+  workingHours: 'Mon-Sat, 10:00 AM - 7:00 PM',
+  experienceYears: '30+',
+  happyClients: '',
+  projectsCurated: '',
+  transactionVolume: '',
+  hreraNumber: 'RC/HARERA/GGM/3367/2962/2025/244',
+  reraNumber: 'RC/HARERA/GGM/3367/2962/2025/244',
+  founderName: 'Rohit Raj Maingi',
+  founderTitle: 'Founder & Advisory Director',
+  founderPortrait: '/images/rohit-raj-maingi.png',
+  founderNoteQuote:
+    'I spent 18 years helping families grow their wealth in private banking. Property is usually the largest decision on that balance sheet, and it deserves the same discipline.',
+  founderNoteBody: '',
+  instagramHandle: '@rohitmaing77',
+  instagramUrl: 'https://www.instagram.com/rohitmaing77',
+  linkedinUrl: '',
+  credibility: [
+    { label: 'Featured In', value: 'Forbes India' },
+    { label: 'Featured In', value: 'Mid-Day Vision List' },
+    { label: 'Banking Lineage', value: 'Standard Chartered · HSBC · Deutsche Bank' },
+    { label: 'Member', value: 'NAR India · APP' },
+    { label: 'HRERA Gurugram', value: 'RC/HARERA/GGM/3367/2962/2025/244' },
+  ],
+  corridor: {
+    heading: 'Golf Course Extension Road, Sectors 58 to 68.',
+    body: 'The premier residential & commercial growth corridor of Gurugram. Where infrastructure, master planning, and institutional capital converge.',
+    reportSlug: 'gurgaons-aspirational-buyer',
+    highlightedSectors: [
+      { sector: '63', label: 'Pick' },
+      { sector: '67', label: 'Office' },
+    ],
+  },
+  reels: [],
+  socialLinks: {
+    instagram: 'https://www.instagram.com/rohitmaing77',
+    facebook: '',
+    linkedin: '',
+    youtube: '',
+  },
+};
+
+// 6. Fetch Settings (with zero-failure fallback)
+export async function getSettingsServer(): Promise<SiteSettings> {
+  try {
+    if (process.env.MONGODB_URI) {
+      await connectDB();
+      const doc = await SettingsModel.findOne();
+      if (doc) {
+        const plain = toPlainObject<SiteSettings>(doc);
+        return {
+          ...AUTHENTIC_SETTINGS,
+          ...plain,
+          founderPortrait: plain.founderPortrait || AUTHENTIC_SETTINGS.founderPortrait,
+        };
+      }
+    }
+  } catch (err) {
+    console.warn('[serverData] Settings DB lookup fallback');
+  }
+  return AUTHENTIC_SETTINGS;
+}
+
+// 7. Fetch Testimonials (with zero-failure fallback)
+export async function getTestimonialsServer(): Promise<Testimonial[]> {
+  try {
+    if (process.env.MONGODB_URI) {
+      await connectDB();
+      const docs = await TestimonialModel.find({ featured: true }).sort({ order: 1 });
+      if (docs && docs.length > 0) {
+        return toPlainObject<Testimonial[]>(docs);
+      }
+    }
+  } catch (err) {
+    console.warn('[serverData] Testimonials DB lookup fallback');
+  }
+  return [];
 }

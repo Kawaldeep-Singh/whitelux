@@ -63,6 +63,10 @@ export default function ProjectForm({ initialData, isEdit }: ProjectFormProps) {
     initialData?.publishStatus || 'published'
   );
   const [featured, setFeatured] = useState(initialData?.featured || false);
+  const [isPick, setIsPick] = useState(initialData?.isPick || false);
+  const [pickRank, setPickRank] = useState(initialData?.pickRank || 99);
+  const [pickBadge, setPickBadge] = useState(initialData?.pickBadge || '');
+  const [pickNote, setPickNote] = useState(initialData?.pickNote || '');
 
   // Pricing & scale
   const [startingPrice, setStartingPrice] = useState(initialData?.startingPrice || '');
@@ -216,6 +220,10 @@ export default function ProjectForm({ initialData, isEdit }: ProjectFormProps) {
         status,
         publishStatus,
         featured,
+        isPick,
+        pickRank: Number(pickRank) || 99,
+        pickBadge,
+        pickNote,
         startingPrice,
         price,
         paymentPlan,
@@ -445,6 +453,65 @@ export default function ProjectForm({ initialData, isEdit }: ProjectFormProps) {
             <label htmlFor="featuredCheck" className="text-xs text-[#FAF7F0] cursor-pointer">
               Feature on Homepage Showcase
             </label>
+          </div>
+
+          {/* Rohit's Advisory Pick (Spotlight) */}
+          <div className="sm:col-span-3 pt-4 border-t border-[#222] mt-2 space-y-4">
+            <div className="flex items-center gap-3">
+              <input
+                type="checkbox"
+                id="isPickCheck"
+                checked={isPick}
+                onChange={(e) => setIsPick(e.target.checked)}
+                className="w-4 h-4 accent-[#C9A24B] rounded cursor-pointer"
+              />
+              <label htmlFor="isPickCheck" className="text-xs text-[#FAF7F0] font-medium cursor-pointer">
+                Include in &quot;Rohit&apos;s Picks&quot; (Homepage Spotlight - Max 3)
+              </label>
+            </div>
+
+            {isPick && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pl-7 bg-[#1A1A1A]/50 p-4 rounded border border-[#C8A24A]/20">
+                <div>
+                  <label className="block text-xs font-medium text-[#C9C6C0] uppercase mb-1.5">
+                    Pick Rank (1, 2, or 3)
+                  </label>
+                  <input
+                    type="number"
+                    min="1"
+                    max="99"
+                    value={pickRank}
+                    onChange={(e) => setPickRank(Number(e.target.value) || 1)}
+                    className="w-full bg-[#141414] border border-[#333] rounded px-3.5 py-2 text-xs text-[#FAF7F0] focus:outline-none focus:border-[#C9A24B]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-[#C9C6C0] uppercase mb-1.5">
+                    Pick Badge Text (e.g. &quot;Top Pick&quot;)
+                  </label>
+                  <input
+                    type="text"
+                    value={pickBadge}
+                    onChange={(e) => setPickBadge(e.target.value)}
+                    placeholder="Top Pick (filled gold) or leave empty"
+                    className="w-full bg-[#141414] border border-[#333] rounded px-3.5 py-2 text-xs text-[#FAF7F0] focus:outline-none focus:border-[#C9A24B]"
+                  />
+                </div>
+                <div className="sm:col-span-2">
+                  <label className="block text-xs font-medium text-[#C9C6C0] uppercase mb-1.5">
+                    Why I&apos;d buy it (Personal advisory note quote)
+                  </label>
+                  <textarea
+                    rows={2}
+                    value={pickNote}
+                    onChange={(e) => setPickNote(e.target.value)}
+                    placeholder="My focused pick for the highest appreciation potential in the corridor..."
+                    className="w-full bg-[#141414] border border-[#333] rounded px-3.5 py-2 text-xs text-[#FAF7F0] focus:outline-none focus:border-[#C9A24B]"
+                  />
+                  <p className="text-[11px] text-[#888] mt-1">If left empty, the quote line hides cleanly on the card.</p>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

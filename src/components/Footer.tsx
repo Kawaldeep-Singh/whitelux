@@ -43,18 +43,18 @@ export function Footer() {
                 Private Advisory Desk
               </span>
               <span className="font-body-md text-body-md text-[#FAF7F0] block font-light">
-                +91 98100 58930
+                +91 98152 02102
               </span>
               <span className="font-body-sm text-body-sm text-[#a89d8d] block">
-                concierge@whiteluxegurgaon.com
+                rohitrajmaingi@whiteluxerealestate.com
               </span>
             </div>
             <div className="space-y-1 max-w-xs">
               <span className="font-eyebrow-badge text-eyebrow-badge uppercase tracking-[0.2em] text-primary block font-medium">
-                The Private Gallery
+                Advisory Office
               </span>
               <p className="font-body-sm text-body-sm text-[#a89d8d] leading-relaxed">
-                One Horizon Center, Golf Course Road, Sector 43, Gurgaon, Haryana 122002
+                R-7/109 M3M Urbana, Sector 67, Gurgaon, Haryana 122102
               </p>
             </div>
           </div>
@@ -154,7 +154,7 @@ export function Footer() {
                 <div className="flex items-center bg-[#181818] border border-primary/30 rounded-[4px] focus-within:border-primary transition-colors overflow-hidden">
                   <input
                     className="w-full px-3.5 py-2.5 bg-transparent font-body-sm text-body-sm text-[#FAF7F0] placeholder:text-[#7d7468] focus:outline-none"
-                    placeholder="Enter institutional or personal email"
+                    placeholder="e.g. rohitrajmaingi@whiteluxerealestate.com"
                     type="email"
                     required
                     value={newsletterEmail}

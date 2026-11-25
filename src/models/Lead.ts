@@ -13,6 +13,8 @@ export interface ILead extends Document {
   phone: string;
   email: string;
   interestedIn?: string;
+  budget?: string;
+  timeline?: string;
   message?: string;
   projectId?: mongoose.Types.ObjectId;
   projectSlug?: string;
@@ -31,6 +33,8 @@ const LeadSchema = new Schema<ILead>(
     phone: { type: String, required: true, trim: true },
     email: { type: String, required: true, trim: true, lowercase: true },
     interestedIn: { type: String, trim: true },
+    budget: { type: String, trim: true },
+    timeline: { type: String, trim: true },
     message: { type: String, trim: true },
     projectId: { type: Schema.Types.ObjectId, ref: 'Project' },
     projectSlug: { type: String, trim: true },
