@@ -21,7 +21,9 @@ export interface IProject extends Document {
   name: string;
   slug: string;
   type: string;
+  developer?: string;
   location: string;
+  corridor?: string;
   startingPrice: string;
   price?: string;
   heroImage?: string;
@@ -60,7 +62,9 @@ const ProjectSchema = new Schema<IProject>(
     name: { type: String, required: true, trim: true },
     slug: { type: String, required: true, unique: true, trim: true, index: true },
     type: { type: String, required: true, trim: true }, // e.g. "Luxury Apartment"
+    developer: { type: String, trim: true },
     location: { type: String, required: true, trim: true }, // e.g. "Sector 63A, Gurugram"
+    corridor: { type: String, trim: true },
     startingPrice: { type: String, required: true, trim: true }, // e.g. "₹ 9.7 Cr*"
     price: { type: String, trim: true },
     heroImage: { type: String, default: '' },

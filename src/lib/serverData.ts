@@ -4,6 +4,7 @@ import { Blog as BlogModel } from '@/models/Blog';
 import { Settings as SettingsModel } from '@/models/Settings';
 import { Testimonial as TestimonialModel } from '@/models/Testimonial';
 import { Project, Blog, SiteSettings, Testimonial } from '@/types';
+import { NEW_11_PROJECTS } from './newProjectsData';
 
 // Authentic 5 Projects from whiteluxerealestate.com
 export const AUTHENTIC_PROJECTS: Project[] = [
@@ -95,6 +96,7 @@ export const AUTHENTIC_PROJECTS: Project[] = [
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
+  /*
   {
     _id: 'proj-2',
     city: 'Gurgaon',
@@ -178,6 +180,7 @@ export const AUTHENTIC_PROJECTS: Project[] = [
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
+  */
   {
     _id: 'proj-3',
     city: 'Gurgaon',
@@ -444,6 +447,7 @@ export const AUTHENTIC_PROJECTS: Project[] = [
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
+  ...NEW_11_PROJECTS,
 ];
 
 // Authentic Editorial Blogs
@@ -652,7 +656,10 @@ export async function getProjectsServer(filters?: {
       await connectDB();
       const query: any = { publishStatus: 'published' };
       if (filters?.location && filters.location !== 'All Locations') {
-        query.location = { $regex: filters.location, $options: 'i' };
+        query.$or = [
+          { location: { $regex: filters.location, $options: 'i' } },
+          { corridor: { $regex: filters.location, $options: 'i' } },
+        ];
       }
       if (filters?.type && filters.type !== 'All Types') {
         query.type = { $regex: filters.type, $options: 'i' };
@@ -661,10 +668,19 @@ export async function getProjectsServer(filters?: {
         query.status = filters.status;
       }
       if (filters?.search) {
-        query.$or = [
-          { name: { $regex: filters.search, $options: 'i' } },
-          { location: { $regex: filters.search, $options: 'i' } },
+        const sRegex = { $regex: filters.search, $options: 'i' };
+        const searchConditions = [
+          { name: sRegex },
+          { developer: sRegex },
+          { location: sRegex },
+          { corridor: sRegex },
         ];
+        if (query.$or) {
+          query.$and = [{ $or: query.$or }, { $or: searchConditions }];
+          delete query.$or;
+        } else {
+          query.$or = searchConditions;
+        }
       }
 
       const docs = await ProjectModel.find(query).sort({ featured: -1, createdAt: -1 });
@@ -679,7 +695,11 @@ export async function getProjectsServer(filters?: {
   // Filter fallback list
   return AUTHENTIC_PROJECTS.filter((p) => {
     if (filters?.location && filters.location !== 'All Locations') {
-      if (!p.location.toLowerCase().includes(filters.location.toLowerCase())) return false;
+      const loc = filters.location.toLowerCase();
+      const matchesLoc =
+        (p.location && p.location.toLowerCase().includes(loc)) ||
+        (p.corridor && p.corridor.toLowerCase().includes(loc));
+      if (!matchesLoc) return false;
     }
     if (filters?.type && filters.type !== 'All Types') {
       if (!p.type.toLowerCase().includes(filters.type.toLowerCase())) return false;
@@ -689,7 +709,12 @@ export async function getProjectsServer(filters?: {
     }
     if (filters?.search) {
       const q = filters.search.toLowerCase();
-      if (!p.name.toLowerCase().includes(q) && !p.location.toLowerCase().includes(q)) return false;
+      const matchesSearch =
+        (p.name && p.name.toLowerCase().includes(q)) ||
+        (p.developer && p.developer.toLowerCase().includes(q)) ||
+        (p.location && p.location.toLowerCase().includes(q)) ||
+        (p.corridor && p.corridor.toLowerCase().includes(q));
+      if (!matchesSearch) return false;
     }
     return true;
   });

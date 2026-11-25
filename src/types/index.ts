@@ -20,7 +20,9 @@ export interface Project {
   name: string;
   slug: string;
   type: string;
+  developer?: string;
   location: string;
+  corridor?: string;
   startingPrice: string;
   price?: string;
   heroImage?: string;

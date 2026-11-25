@@ -132,11 +132,22 @@ export default function CuratedPortfolio({ projects }: CuratedPortfolioProps) {
             >
               {/* Image banner */}
               <Link href={`/properties/${project.slug}`} className="relative aspect-[16/10] overflow-hidden block">
-                <img
-                  src={project.heroImage || '/home-page.png'}
-                  alt={project.name}
-                  className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                />
+                {project.heroImage ? (
+                  <img
+                    src={project.heroImage}
+                    alt={project.name}
+                    className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-[#14110C] border border-[#C8A24A] flex flex-col items-center justify-center p-4 text-center">
+                    <div className="w-12 h-12 rounded-[2px] overflow-hidden border border-[#C8A24A]/40 mb-2 shadow-md bg-black">
+                      <img src="/logo.jpeg" alt="White Luxe" className="w-full h-full object-cover" />
+                    </div>
+                    <span className="text-[10px] uppercase tracking-[0.2em] text-[#C8A24A]/90 font-sans font-medium">
+                      Image coming soon
+                    </span>
+                  </div>
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#14110C] via-transparent to-transparent opacity-85" />
 
                 {/* Status Badge */}
@@ -171,6 +182,16 @@ export default function CuratedPortfolio({ projects }: CuratedPortfolioProps) {
                       {project.name}
                     </h3>
                   </Link>
+                  {project.developer && (
+                    <p className="text-[11px] uppercase tracking-[0.16em] text-[#C8A24A] font-medium">
+                      By {project.developer}
+                    </p>
+                  )}
+                  {project.pickNote && (
+                    <p className="text-xs font-serif italic text-[#E3C06F]/90 mt-1 pl-2.5 border-l border-[#C8A24A]/40 line-clamp-2">
+                      &ldquo;{project.pickNote}&rdquo;
+                    </p>
+                  )}
                   <p className="text-xs text-[#A9A294] flex items-center gap-1.5 font-light">
                     <MapPin size={13} className="text-[#C8A24A] flex-shrink-0" />
                     <span>{project.location}</span>

@@ -79,11 +79,22 @@ export default async function ProjectDetailPage({ params }: PageProps) {
       <main className="flex-1">
         {/* 1. Hero Banner */}
         <section className="relative min-h-[75vh] md:min-h-[85vh] bg-[#0D0D0D] text-[#F4ECD8] flex items-end pt-28 pb-16 overflow-hidden border-b border-[#C8A24A]/20">
-          {project.heroImage && (
+          {project.heroImage ? (
             <div
               className="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-luminosity scale-105"
               style={{ backgroundImage: `url('${project.heroImage}')` }}
             />
+          ) : (
+            <div className="absolute inset-0 bg-[#0A0806] flex items-center justify-center pointer-events-none overflow-hidden">
+              <div className="w-[340px] max-w-[85%] aspect-[16/10] bg-[#14110C] border border-[#C8A24A] rounded-[2px] flex flex-col items-center justify-center p-6 text-center shadow-2xl opacity-80">
+                <div className="w-16 h-16 rounded-[2px] overflow-hidden border border-[#C8A24A]/40 mb-3 shadow-md bg-black">
+                  <img src="/logo.jpeg" alt="White Luxe" className="w-full h-full object-cover" />
+                </div>
+                <span className="text-[11px] uppercase tracking-[0.25em] text-[#C8A24A] font-medium">
+                  Image coming soon
+                </span>
+              </div>
+            </div>
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] via-[#0D0D0D]/75 to-transparent" />
 
@@ -104,6 +115,12 @@ export default async function ProjectDetailPage({ params }: PageProps) {
               <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl text-[#F4ECD8] leading-tight font-normal">
                 {project.name}
               </h1>
+
+              {project.developer && (
+                <p className="text-xs uppercase tracking-[0.2em] text-[#C8A24A] font-sans font-medium">
+                  By {project.developer}
+                </p>
+              )}
 
               <p className="text-sm md:text-base text-[#A9A294] flex items-center gap-2 font-light">
                 <MapPin size={16} className="text-[#C8A24A] flex-shrink-0" />
@@ -165,10 +182,22 @@ export default async function ProjectDetailPage({ params }: PageProps) {
               </div>
               <div className="md:col-span-8 space-y-4 text-sm md:text-base text-[#A9A294] font-light leading-relaxed">
                 <p>{project.aboutDescription}</p>
+
+                {project.pickNote && (
+                  <div className="p-5 bg-[#14110C] border-l-2 border-[#C8A24A] border-y border-r border-[#C8A24A]/25 rounded-[2px] space-y-1.5 my-4">
+                    <span className="text-[10px] uppercase tracking-[0.25em] text-[#C8A24A] font-sans font-semibold block">
+                      Rohit&apos;s Advisory Perspective · &ldquo;Why I&apos;d Buy It&rdquo;
+                    </span>
+                    <p className="font-serif italic text-base sm:text-lg text-[#F4ECD8] leading-relaxed">
+                      &ldquo;{project.pickNote}&rdquo;
+                    </p>
+                  </div>
+                )}
+
                 {project.reraNumber && (
                   <div className="pt-4 flex items-center gap-2 text-xs text-[#C8A24A]">
                     <ShieldCheck size={16} />
-                    <span>RERA Registration No: <strong className="text-[#F4ECD8] font-normal">{project.reraNumber}</strong></span>
+                    <span>HRERA: <strong className="text-[#F4ECD8] font-normal">{project.reraNumber}</strong></span>
                   </div>
                 )}
               </div>
@@ -216,6 +245,10 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                   </tbody>
                 </table>
               </div>
+
+              <p className="text-xs text-[#A9A294]/80 italic text-center">
+                * Prices and details are indicative; verify with the developer and Haryana RERA.
+              </p>
             </div>
           </section>
         )}
@@ -307,18 +340,37 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                 </div>
               </div>
 
-              {/* Map Embed or Placeholder */}
+              {/* Map Embed or Location Card */}
               <div className="lg:col-span-6">
                 {project.mapLink ? (
-                  <div className="aspect-[16/11] rounded-[2px] overflow-hidden border border-[#C8A24A]/30 shadow-xl">
-                    <iframe
-                      src={project.mapLink}
-                      width="100%"
-                      height="100%"
-                      style={{ border: 0 }}
-                      allowFullScreen
-                      loading="lazy"
-                    />
+                  <div className="aspect-[16/11] rounded-[2px] overflow-hidden border border-[#C8A24A]/30 shadow-xl bg-[#14110C] flex flex-col justify-between p-6">
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-[#C8A24A]">
+                        <Compass size={16} />
+                        <span>Prime Location Coordinates</span>
+                      </div>
+                      <h3 className="font-serif text-2xl text-[#F4ECD8]">{project.name}</h3>
+                      <p className="text-sm text-[#A9A294] font-light flex items-center gap-2">
+                        <MapPin size={16} className="text-[#C8A24A] flex-shrink-0" />
+                        <span>{project.location}</span>
+                      </p>
+                      {project.corridor && (
+                        <p className="text-xs text-[#E3C06F]/80">
+                          Corridor: {project.corridor}
+                        </p>
+                      )}
+                    </div>
+                    <div className="pt-4 border-t border-[#C8A24A]/20">
+                      <a
+                        href={project.mapLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-6 py-3 bg-[#0D0D0D] border border-[#C8A24A] hover:bg-[#C8A24A]/10 text-xs text-[#E3C06F] uppercase tracking-[0.2em] rounded-[2px] transition-all shadow-md group"
+                      >
+                        <MapPin size={14} className="text-[#C8A24A] group-hover:scale-110 transition-transform" />
+                        <span>Open in Google Maps</span>
+                      </a>
+                    </div>
                   </div>
                 ) : (
                   <div className="aspect-[16/11] rounded-[2px] bg-[#14110C] border border-[#C8A24A]/25 flex flex-col items-center justify-center p-8 text-center space-y-3">

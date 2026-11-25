@@ -18,6 +18,7 @@ import { Project } from '../models/Project';
 import { Blog } from '../models/Blog';
 import { Testimonial } from '../models/Testimonial';
 import { Settings } from '../models/Settings';
+import { NEW_11_PROJECTS } from '../lib/newProjectsData';
 
 async function seed(): Promise<void> {
   try {
@@ -99,9 +100,8 @@ async function seed(): Promise<void> {
     });
     console.log('[Seed] Default Settings seeded with founder-led advisory data.');
 
-    // 3. Seed 5 Authentic Projects from whiteluxerealestate.com
-    await Project.deleteMany({});
-    await Project.create([
+    // 3. Seed 16 Authentic Projects (5 original + 11 new) idempotently
+    const AUTHENTIC_5_PROJECTS = [
       {
         city: 'Gurgaon',
         name: 'TARC Ishva',
@@ -185,6 +185,7 @@ async function seed(): Promise<void> {
           'My focused pick for the highest appreciation potential in the corridor, next to DLF The Arbour.',
         publishStatus: 'published',
       },
+      /*
       {
         city: 'Gurgaon',
         name: 'Godrej Astra',
@@ -265,6 +266,7 @@ async function seed(): Promise<void> {
         pickNote: '',
         publishStatus: 'published',
       },
+      */
       {
         city: 'Gurgaon',
         name: 'Tulip Monsella',
@@ -518,8 +520,21 @@ async function seed(): Promise<void> {
         pickNote: '',
         publishStatus: 'published',
       },
-    ]);
-    console.log('[Seed] 5 Authentic Projects seeded successfully.');
+    ];
+
+    // Remove commented-out projects
+    await Project.deleteOne({ slug: 'godrej-astra' });
+
+    const ALL_PROJECTS = [...AUTHENTIC_5_PROJECTS, ...NEW_11_PROJECTS];
+    for (const proj of ALL_PROJECTS) {
+      const { _id, ...projData } = proj as any;
+      await Project.updateOne(
+        { slug: proj.slug },
+        { $set: projData },
+        { upsert: true }
+      );
+    }
+    console.log(`[Seed] ${ALL_PROJECTS.length} Projects seeded/upserted successfully (idempotent).`);
 
     // 4. Seed Editorial Blogs (including new featured article)
     await Blog.deleteMany({});

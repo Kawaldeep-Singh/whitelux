@@ -55,6 +55,8 @@ export default function ProjectForm({ initialData, isEdit }: ProjectFormProps) {
   const [autoSlug, setAutoSlug] = useState(!isEdit);
   const [city, setCity] = useState(initialData?.city || 'Gurgaon');
   const [location, setLocation] = useState(initialData?.location || '');
+  const [developer, setDeveloper] = useState(initialData?.developer || '');
+  const [corridor, setCorridor] = useState(initialData?.corridor || '');
   const [type, setType] = useState(initialData?.type || 'Luxury Apartment');
   const [status, setStatus] = useState<'upcoming' | 'construction' | 'ready'>(
     initialData?.status || 'construction'
@@ -216,6 +218,8 @@ export default function ProjectForm({ initialData, isEdit }: ProjectFormProps) {
         slug,
         city,
         location,
+        developer,
+        corridor,
         type,
         status,
         publishStatus,
@@ -409,6 +413,34 @@ export default function ProjectForm({ initialData, isEdit }: ProjectFormProps) {
               <option value="Commercial">Commercial</option>
               <option value="Retail">Retail</option>
             </select>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+          <div>
+            <label className="block text-xs font-medium text-[#C9C6C0] uppercase mb-1.5">
+              Developer / Institution
+            </label>
+            <input
+              type="text"
+              value={developer}
+              onChange={(e) => setDeveloper(e.target.value)}
+              placeholder="e.g. Godrej Properties / DLF"
+              className="w-full bg-[#1A1A1A] border border-[#333] rounded px-3.5 py-2 text-xs text-[#FAF7F0] focus:outline-none focus:border-[#C9A24B]"
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-medium text-[#C9C6C0] uppercase mb-1.5">
+              Growth Corridor
+            </label>
+            <input
+              type="text"
+              value={corridor}
+              onChange={(e) => setCorridor(e.target.value)}
+              placeholder="e.g. Golf Course Road / Dwarka Expressway"
+              className="w-full bg-[#1A1A1A] border border-[#333] rounded px-3.5 py-2 text-xs text-[#FAF7F0] focus:outline-none focus:border-[#C9A24B]"
+            />
           </div>
         </div>
 

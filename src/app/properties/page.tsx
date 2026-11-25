@@ -16,27 +16,6 @@ export const metadata: Metadata = {
 
 export const revalidate = 60;
 
-const LOCATIONS = [
-  'All Locations',
-  'Golf Course Road',
-  'Golf Course Extension Road',
-  'Dwarka Expressway',
-  'MG Road',
-  'Cyber City',
-  'Sohna Road',
-  'Southern Peripheral Road',
-];
-
-const PROPERTY_TYPES = [
-  'All Types',
-  'Luxury Apartment',
-  'Penthouse',
-  'Luxury Villa',
-  'Builder Floor',
-  'Commercial',
-  'Retail',
-];
-
 const STAGES = [
   { label: 'All Stages', value: '' },
   { label: 'Upcoming', value: 'upcoming' },
@@ -53,6 +32,36 @@ export default async function PropertiesPage({
   const typeParam = searchParams.type && searchParams.type !== 'All Types' ? searchParams.type : undefined;
   const statusParam = searchParams.status || undefined;
   const searchParam = searchParams.search || undefined;
+
+  // Retrieve all projects to dynamically build filters
+  const allProjects = await getProjectsServer();
+
+  // Dynamic Type filter from dataset
+  const dynamicTypes = [
+    'All Types',
+    ...Array.from(new Set(allProjects.map((p) => p.type).filter(Boolean) as string[])).sort(),
+  ];
+
+  // Dynamic Location & Corridor filter from dataset
+  const locationOptionsSet = new Set<string>();
+  allProjects.forEach((p) => {
+    if (p.corridor) {
+      if (p.corridor.includes('/')) {
+        p.corridor.split('/').forEach((c) => {
+          if (c.trim()) locationOptionsSet.add(c.trim());
+        });
+      }
+      locationOptionsSet.add(p.corridor.trim());
+    }
+    if (p.location) {
+      const parts = p.location.split(',');
+      if (parts.length > 1) {
+        const sector = parts[0].trim();
+        if (sector) locationOptionsSet.add(sector);
+      }
+    }
+  });
+  const dynamicLocations = ['All Locations', ...Array.from(locationOptionsSet).sort()];
 
   const projects = await getProjectsServer({
     location: locationParam,
@@ -94,7 +103,7 @@ export default async function PropertiesPage({
                   type="text"
                   name="search"
                   defaultValue={searchParam || ''}
-                  placeholder="Search by project name or sector..."
+                  placeholder="Search by name, developer, corridor or sector..."
                   className="w-full pl-10 pr-4 py-2.5 bg-[#14110C] border border-[#C8A24A]/25 rounded-[2px] text-xs text-[#F4ECD8] placeholder-[#666] focus:outline-none focus:border-[#C8A24A] focus:ring-1 focus:ring-[#C8A24A]/40 transition-all"
                 />
               </div>
@@ -104,7 +113,7 @@ export default async function PropertiesPage({
                 defaultValue={locationParam || 'All Locations'}
                 className="py-2.5 px-3.5 bg-[#14110C] border border-[#C8A24A]/25 rounded-[2px] text-xs text-[#F4ECD8] focus:outline-none focus:border-[#C8A24A] transition-colors cursor-pointer"
               >
-                {LOCATIONS.map((loc) => (
+                {dynamicLocations.map((loc) => (
                   <option key={loc} value={loc} className="bg-[#14110C]">
                     {loc}
                   </option>
@@ -116,7 +125,7 @@ export default async function PropertiesPage({
                 defaultValue={typeParam || 'All Types'}
                 className="py-2.5 px-3.5 bg-[#14110C] border border-[#C8A24A]/25 rounded-[2px] text-xs text-[#F4ECD8] focus:outline-none focus:border-[#C8A24A] transition-colors cursor-pointer"
               >
-                {PROPERTY_TYPES.map((t) => (
+                {dynamicTypes.map((t) => (
                   <option key={t} value={t} className="bg-[#14110C]">
                     {t}
                   </option>
@@ -186,8 +195,13 @@ export default async function PropertiesPage({
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-[#555]">
-                        <Building2 size={32} />
+                      <div className="w-full h-full bg-[#14110C] border border-[#C8A24A] flex flex-col items-center justify-center p-4 text-center">
+                        <div className="w-12 h-12 rounded-[2px] overflow-hidden border border-[#C8A24A]/40 mb-2 shadow-md bg-black">
+                          <img src="/logo.jpeg" alt="White Luxe" className="w-full h-full object-cover" />
+                        </div>
+                        <span className="text-[10px] uppercase tracking-[0.2em] text-[#C8A24A]/90 font-sans font-medium">
+                          Image coming soon
+                        </span>
                       </div>
                     )}
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] via-transparent to-transparent opacity-80" />
@@ -213,6 +227,16 @@ export default async function PropertiesPage({
                       <h3 className="font-serif text-2xl text-[#F4ECD8] group-hover:text-[#E3C06F] transition-colors mt-1 font-normal">
                         {proj.name}
                       </h3>
+                      {proj.developer && (
+                        <p className="text-[11px] uppercase tracking-[0.16em] text-[#C8A24A] font-medium mt-1">
+                          By {proj.developer}
+                        </p>
+                      )}
+                      {proj.pickNote && (
+                        <p className="text-xs font-serif italic text-[#E3C06F]/90 mt-2 pl-2.5 border-l border-[#C8A24A]/40 line-clamp-2">
+                          &ldquo;{proj.pickNote}&rdquo;
+                        </p>
+                      )}
                       <p className="text-xs text-[#A9A294] flex items-center gap-1.5 mt-1.5 font-light">
                         <MapPin size={13} className="text-[#C8A24A] flex-shrink-0" />
                         <span>{proj.location}</span>
