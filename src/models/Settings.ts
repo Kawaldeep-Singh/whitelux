@@ -31,6 +31,17 @@ export interface IReelItem {
   thumbnail?: string;
 }
 
+export interface IFeaturedVideo {
+  title?: string;
+  subtitle?: string;
+  videoUrl?: string;
+  publicId?: string;
+  posterUrl?: string;
+  isActive: boolean;
+  duration?: number;
+  sizeBytes?: number;
+}
+
 export interface ISettings extends Document {
   brandName: string;
   brandTagline: string;
@@ -61,6 +72,7 @@ export interface ISettings extends Document {
   corridor: ICorridorSettings;
   reels: IReelItem[];
   socialLinks: ISocialLinks;
+  featuredVideo?: IFeaturedVideo;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -140,6 +152,16 @@ const SettingsSchema = new Schema<ISettings>(
       facebook: { type: String, default: '' },
       linkedin: { type: String, default: '' },
       youtube: { type: String, default: '' },
+    },
+    featuredVideo: {
+      title: { type: String, default: 'An Insider’s Perspective on Luxury Real Estate' },
+      subtitle: { type: String, default: 'Curated perspectives, corridor intelligence, and high-value Gurgaon assets.' },
+      videoUrl: { type: String, default: '' },
+      publicId: { type: String, default: '' },
+      posterUrl: { type: String, default: '' },
+      isActive: { type: Boolean, default: true },
+      duration: { type: Number, default: 0 },
+      sizeBytes: { type: Number, default: 0 },
     },
   },
   { timestamps: true }

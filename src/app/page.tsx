@@ -10,6 +10,7 @@ import CuratedPortfolio from '@/components/home/CuratedPortfolio';
 import WhereIAdvise from '@/components/home/WhereIAdvise';
 import InsightsSection from '@/components/home/InsightsSection';
 import ClientVoices from '@/components/home/ClientVoices';
+import FeaturedVideoSection from '@/components/home/FeaturedVideoSection';
 import ConsultationSection from '@/components/home/ConsultationSection';
 import FooterSection from '@/components/FooterSection';
 import FloatingButtons from '@/components/FloatingButtons';
@@ -61,8 +62,8 @@ export default async function HomePage() {
         {/* 6. Corridor focus (Settings.corridor & Sectors 58-68 grid) */}
         <CorridorFocus corridor={settings.corridor} />
 
-        {/* 7. Curated Portfolio & Verified Properties */}
-        <CuratedPortfolio projects={projects} />
+        {/* 7. Curated Portfolio & Verified Properties (Commented out) */}
+        {/* <CuratedPortfolio projects={projects} /> */}
 
         {/* 8. Where I Advise (3 practices: Commercial/SCO/Leasing lead practice) */}
         <WhereIAdvise />
@@ -78,7 +79,12 @@ export default async function HomePage() {
         {/* 9. Client Voices (Testimonials - auto-hides if none) */}
         <ClientVoices testimonials={testimonials} />
 
-        {/* 10. Consultation Form ("Speak with Rohit directly.") */}
+        {/* 10. Featured Brand Film Showcase */}
+        {settings.featuredVideo?.isActive && settings.featuredVideo?.videoUrl && (
+          <FeaturedVideoSection video={settings.featuredVideo} />
+        )}
+
+        {/* 11. Consultation Form ("Speak with Rohit directly.") */}
         <ConsultationSection settings={settings} />
       </main>
 

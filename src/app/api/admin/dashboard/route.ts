@@ -31,17 +31,22 @@ export async function GET(req: NextRequest) {
       Lead.find().sort({ createdAt: -1 }).limit(5),
     ]);
 
+    const counts = {
+      totalProjects,
+      publishedProjects,
+      draftProjects: Math.max(0, totalProjects - publishedProjects),
+      totalBlogs,
+      publishedBlogs,
+      draftBlogs: Math.max(0, totalBlogs - publishedBlogs),
+      totalLeads,
+      newLeads,
+    };
+
     return NextResponse.json({
       success: true,
       data: {
-        stats: {
-          totalProjects,
-          publishedProjects,
-          totalBlogs,
-          publishedBlogs,
-          totalLeads,
-          newLeads,
-        },
+        counts,
+        stats: counts,
         recentLeads,
       },
     });

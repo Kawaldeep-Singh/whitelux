@@ -38,21 +38,28 @@ export async function POST(req: NextRequest) {
 
     const token = signToken({ id: (admin._id as any).toString(), email: admin.email });
 
+    const isHttps = req.headers.get('x-forwarded-proto') === 'https' || req.nextUrl.protocol === 'https:';
+
+    const adminData = {
+      id: admin._id,
+      name: admin.name,
+      email: admin.email,
+      role: 'Admin',
+    };
+
     const response = NextResponse.json({
       success: true,
       message: 'Login successful',
-      admin: {
-        id: admin._id,
-        name: admin.name,
-        email: admin.email,
-        role: 'Admin',
+      admin: adminData,
+      data: {
+        admin: adminData,
       },
       token,
     });
 
     response.cookies.set('admin_token', token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: isHttps,
       sameSite: 'lax',
       maxAge: 7 * 24 * 60 * 60,
       path: '/',

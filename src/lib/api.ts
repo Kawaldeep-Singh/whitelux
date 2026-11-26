@@ -35,9 +35,18 @@ export async function apiFetch<T>(endpoint: string, options: FetchOptions = {}):
     }
   }
 
+  const authHeaders: Record<string, string> = {};
+  if (typeof window !== 'undefined') {
+    const token = localStorage.getItem('admin_token');
+    if (token) {
+      authHeaders['Authorization'] = `Bearer ${token}`;
+    }
+  }
+
   const res = await fetch(url, {
     headers: {
       'Content-Type': 'application/json',
+      ...authHeaders,
       ...headers,
     },
     credentials: 'include', // sends httpOnly cookies across origins
@@ -147,10 +156,33 @@ export const api = {
       body: JSON.stringify(payload),
     }),
 
+  // Admin Featured Video
+  adminGetFeaturedVideo: () => apiFetch<any>('/admin/video'),
+  adminUpdateFeaturedVideo: (payload: any) =>
+    apiFetch<any>('/admin/video', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    }),
+  adminDeleteFeaturedVideo: () =>
+    apiFetch<any>('/admin/video', {
+      method: 'DELETE',
+    }),
+  adminGetCloudinarySignature: () => apiFetch<any>('/admin/cloudinary-sign'),
+
   // File Upload
   uploadFiles: async (formData: FormData): Promise<{ success: boolean; urls: string[]; url: string }> => {
+    const authHeaders: Record<string, string> = {};
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('admin_token');
+      if (token) {
+        authHeaders['Authorization'] = `Bearer ${token}`;
+      }
+    }
     const res = await fetch(`${getBaseUrl()}/admin/upload`, {
       method: 'POST',
+      headers: {
+        ...authHeaders,
+      },
       body: formData,
       credentials: 'include',
     });

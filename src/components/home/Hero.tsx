@@ -117,7 +117,7 @@ export default function Hero({ settings }: HeroProps) {
               transition={{ duration: 0.8, delay: 0.3 }}
               className="lg:col-span-5 flex flex-col items-center lg:items-end"
             >
-              <div className="relative max-w-sm w-full p-2.5 bg-[#14110C] border border-[#C8A24A]/40 rounded-[2px] shadow-[0_15px_50px_rgba(0,0,0,0.85)]">
+              <div className="relative max-w-[345px] w-full p-2.5 bg-[#14110C] border border-[#C8A24A]/40 rounded-[2px] shadow-[0_15px_50px_rgba(0,0,0,0.85)]">
                 <div className="relative aspect-[3/4] w-full overflow-hidden rounded-[2px] bg-gradient-to-b from-[#241E17] via-[#14110C] to-[#0D0D0D]">
                   <img
                     src={founderPortrait}
@@ -126,11 +126,11 @@ export default function Hero({ settings }: HeroProps) {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] via-transparent to-transparent opacity-60" />
                 </div>
-                <div className="pt-3.5 pb-2 px-3 text-center border-t border-[#C8A24A]/20 mt-1">
-                  <h3 className="font-serif text-xl text-[#F4ECD8] tracking-wide font-medium">
+                <div className="pt-3 pb-1.5 px-3 text-center border-t border-[#C8A24A]/20 mt-1">
+                  <h3 className="font-serif text-lg text-[#F4ECD8] tracking-wide font-medium">
                     {founderName}
                   </h3>
-                  <p className="text-[11px] uppercase tracking-[0.22em] text-[#C8A24A] font-sans mt-0.5 font-medium">
+                  <p className="text-[10px] uppercase tracking-[0.22em] text-[#C8A24A] font-sans mt-0.5 font-medium">
                     {founderTitle}
                   </p>
                 </div>

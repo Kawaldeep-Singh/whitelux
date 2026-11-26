@@ -11,6 +11,7 @@ import {
   LayoutDashboard,
   Building2,
   FileText,
+  Video,
   Users,
   Settings,
   LogOut,
@@ -31,6 +32,8 @@ function AdminShell({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (!loading && !admin && !isLoginPage) {
       router.push('/admin/login');
+    } else if (!loading && admin && isLoginPage) {
+      router.push('/admin');
     }
   }, [admin, loading, isLoginPage, router]);
 
@@ -57,6 +60,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
     { label: 'Dashboard', href: '/admin', icon: LayoutDashboard },
     { label: 'Projects', href: '/admin/projects', icon: Building2 },
     { label: 'Blogs', href: '/admin/blogs', icon: FileText },
+    { label: 'Brand Video', href: '/admin/video', icon: Video },
     { label: 'Leads & Enquiries', href: '/admin/leads', icon: Users },
     { label: 'Settings', href: '/admin/settings', icon: Settings },
   ];

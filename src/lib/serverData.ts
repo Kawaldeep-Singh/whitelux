@@ -272,9 +272,10 @@ export const AUTHENTIC_PROJECTS: Project[] = [
       'Tulip Monsella Sector 53 Gurgaon offers ultra-luxury 3, 4 & 5 BHK apartments on Golf Course Road with premium amenities and iconic high-rise living.',
     featured: true,
     isPick: true,
-    pickRank: 3,
-    pickBadge: '',
-    pickNote: '',
+    pickRank: 2,
+    pickBadge: 'Prime Location',
+    pickNote:
+      'Prime Golf Course Road luxury with expansive volumetric spaces and enduring prestige.',
     publishStatus: 'published',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
@@ -354,10 +355,11 @@ export const AUTHENTIC_PROJECTS: Project[] = [
     seoDescription:
       'DLF Privana North Sector 77 Gurgaon offers ultra-luxury 4 BHK apartments & penthouses with world-class amenities on Southern Peripheral Road.',
     featured: true,
-    isPick: false,
-    pickRank: 99,
-    pickBadge: '',
-    pickNote: '',
+    isPick: true,
+    pickRank: 3,
+    pickBadge: 'Growth Call',
+    pickNote:
+      'DLF execution pedigree on the SPR corridor, backed by massive master-planned infrastructure and Aravalli views.',
     publishStatus: 'published',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
@@ -830,6 +832,14 @@ export const AUTHENTIC_SETTINGS: SiteSettings = {
     facebook: '',
     linkedin: '',
     youtube: '',
+  },
+  featuredVideo: {
+    title: 'An Insider’s Perspective on Luxury Real Estate',
+    subtitle: 'Curated perspectives, corridor intelligence, and high-value Gurgaon assets.',
+    videoUrl: '',
+    publicId: '',
+    posterUrl: '',
+    isActive: true,
   },
 };
 

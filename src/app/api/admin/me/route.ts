@@ -10,14 +10,17 @@ export async function GET(req: NextRequest) {
       return unauthorizedResponse();
     }
 
+    const adminData = {
+      id: admin._id,
+      name: admin.name,
+      email: admin.email,
+      role: 'Admin',
+    };
+
     return NextResponse.json({
       success: true,
-      admin: {
-        id: admin._id,
-        name: admin.name,
-        email: admin.email,
-        role: 'Admin',
-      },
+      admin: adminData,
+      data: adminData,
     });
   } catch (err: any) {
     return NextResponse.json(

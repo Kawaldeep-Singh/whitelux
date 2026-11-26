@@ -24,8 +24,9 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
   const checkAuth = async () => {
     try {
       const res = await api.adminGetMe();
-      if (res && res.success && res.data) {
-        setAdmin(res.data);
+      const adminUser = res?.admin || res?.data?.admin || res?.data;
+      if (res && res.success && adminUser) {
+        setAdmin(adminUser);
       } else {
         setAdmin(null);
       }
@@ -42,9 +43,15 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (credentials: { email: string; password: string }) => {
     const res = await api.adminLogin(credentials);
-    if (res && res.success && res.data?.admin) {
-      setAdmin(res.data.admin);
+    const adminUser = res?.admin || res?.data?.admin || res?.data;
+    if (res && res.success && adminUser) {
+      if (res.token && typeof window !== 'undefined') {
+        localStorage.setItem('admin_token', res.token);
+      }
+      setAdmin(adminUser);
       router.push('/admin');
+    } else {
+      throw new Error(res?.message || 'Login failed. Please check credentials.');
     }
   };
 
@@ -53,6 +60,9 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
       await api.adminLogout();
     } catch {
       // ignore
+    }
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('admin_token');
     }
     setAdmin(null);
     router.push('/admin/login');

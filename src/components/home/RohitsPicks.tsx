@@ -154,6 +154,17 @@ export default function RohitsPicks({ projects }: RohitsPicksProps) {
           })}
         </div>
 
+        {/* View All Properties Button */}
+        <div className="flex justify-center pt-2">
+          <Link
+            href="/properties"
+            className="inline-flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-[#B8892F] via-[#C8A24A] to-[#E8C872] text-[#0D0D0D] font-sans font-semibold text-xs uppercase tracking-[0.2em] rounded-[2px] transition-all duration-300 hover:scale-[1.03] active:scale-[0.98] shadow-lg hover:shadow-[0_0_25px_rgba(200,162,74,0.35)]"
+          >
+            <span>View All Properties</span>
+            <ArrowRight size={15} />
+          </Link>
+        </div>
+
         {/* Small Muted RERA Line */}
         <div className="text-center pt-4">
           <p className="text-[11px] text-[#A9A294]/60 font-sans tracking-wide">

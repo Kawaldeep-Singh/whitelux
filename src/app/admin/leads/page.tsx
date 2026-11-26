@@ -19,6 +19,7 @@ import {
   Mail,
   Building,
   Save,
+  ExternalLink,
 } from 'lucide-react';
 
 const STATUS_OPTIONS: LeadStatus[] = [
@@ -308,142 +309,204 @@ export default function AdminLeadsPage() {
 
       {/* Lead Detail & Notes Modal */}
       {selectedLead && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="bg-[#141414] border border-[#2D2D2D] rounded-lg max-w-lg w-full p-6 space-y-5">
-            <div className="flex items-center justify-between border-b border-[#222] pb-3">
-              <div>
-                <h3 className="font-serif text-lg text-[#FAF7F0]">
-                  Client File: {selectedLead.name}
-                </h3>
-                <p className="text-xs text-[#7E7B73]">
-                  Received {new Date(selectedLead.createdAt).toLocaleString()}
-                </p>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6 bg-black/85 backdrop-blur-sm overflow-y-auto">
+          <div className="bg-[#141414] border border-[#2D2D2D] rounded-xl max-w-4xl w-full shadow-2xl overflow-hidden my-auto flex flex-col">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-[#222] bg-[#171717]">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-[#C9A24B]/15 border border-[#C9A24B]/30 flex items-center justify-center text-[#C9A24B] font-serif font-bold text-lg">
+                  {selectedLead.name.charAt(0).toUpperCase()}
+                </div>
+                <div>
+                  <div className="flex items-center gap-2.5">
+                    <h3 className="font-serif text-lg text-[#FAF7F0] tracking-wide">
+                      Client File: {selectedLead.name}
+                    </h3>
+                    <span
+                      className={`text-[10px] font-semibold border px-2 py-0.5 rounded ${
+                        STATUS_BADGES[selectedLead.status]
+                      }`}
+                    >
+                      {selectedLead.status}
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-[#7E7B73]">
+                    Received {new Date(selectedLead.createdAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })}
+                  </p>
+                </div>
               </div>
               <button
                 onClick={() => setSelectedLead(null)}
-                className="text-[#7E7B73] hover:text-[#FAF7F0]"
+                className="p-1.5 text-[#7E7B73] hover:text-[#FAF7F0] hover:bg-[#222] rounded-md transition-colors"
+                title="Close"
               >
-                <X size={18} />
+                <X size={20} />
               </button>
             </div>
 
-            {/* Quick Contact Strip */}
-            <div className="grid grid-cols-2 gap-3 p-3 bg-[#1A1A1A] rounded text-xs border border-[#262626]">
-              <div>
-                <span className="text-[#7E7B73] text-[10px] uppercase">Phone</span>
-                <p className="text-[#FAF7F0] font-medium flex items-center gap-1 mt-0.5">
-                  <Phone size={12} className="text-[#C9A24B]" /> {selectedLead.phone}
-                </p>
+            {/* 2-Column Horizontal Body */}
+            <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6 bg-[#141414]">
+              {/* Left Column: Client Profile & Inbound Details */}
+              <div className="space-y-4 pr-0 md:pr-4 border-b md:border-b-0 md:border-r border-[#222] pb-5 md:pb-0">
+                <h4 className="text-[11px] font-semibold tracking-wider text-[#C9A24B] uppercase flex items-center gap-1.5">
+                  <Users size={13} /> Client Inquiry Details
+                </h4>
+
+                {/* Contact Cards */}
+                <div className="grid grid-cols-2 gap-2.5">
+                  <div className="p-2.5 bg-[#1A1A1A] rounded-lg border border-[#282828]">
+                    <span className="text-[#7E7B73] text-[10px] uppercase font-medium">Phone</span>
+                    <a
+                      href={`tel:${selectedLead.phone}`}
+                      className="text-[#FAF7F0] text-xs font-medium flex items-center gap-1.5 mt-1 hover:text-[#C9A24B] transition-colors"
+                    >
+                      <Phone size={12} className="text-[#C9A24B] flex-shrink-0" />
+                      <span className="truncate">{selectedLead.phone}</span>
+                    </a>
+                  </div>
+                  <div className="p-2.5 bg-[#1A1A1A] rounded-lg border border-[#282828] overflow-hidden">
+                    <span className="text-[#7E7B73] text-[10px] uppercase font-medium">Email</span>
+                    <a
+                      href={`mailto:${selectedLead.email}`}
+                      title={selectedLead.email}
+                      className="text-[#FAF7F0] text-xs font-medium flex items-center gap-1.5 mt-1 hover:text-[#C9A24B] transition-colors truncate"
+                    >
+                      <Mail size={12} className="text-[#C9A24B] flex-shrink-0" />
+                      <span className="truncate">{selectedLead.email}</span>
+                    </a>
+                  </div>
+                </div>
+
+                {/* Property / Interested In */}
+                <div>
+                  <span className="text-[#7E7B73] text-[10px] uppercase font-medium block mb-1">
+                    Property / Interested In
+                  </span>
+                  <div className="text-xs text-[#FAF7F0] bg-[#1A1A1A] p-2.5 rounded-lg border border-[#282828] flex items-center justify-between">
+                    <span className="truncate mr-2">
+                      {selectedLead.projectName
+                        ? selectedLead.projectName
+                        : selectedLead.interestedIn || 'General Consultation'}
+                    </span>
+                    {selectedLead.projectSlug && (
+                      <a
+                        href={`/properties/${selectedLead.projectSlug}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-[10px] text-[#C9A24B] hover:underline inline-flex items-center gap-1 flex-shrink-0"
+                      >
+                        <span>View</span>
+                        <ExternalLink size={10} />
+                      </a>
+                    )}
+                  </div>
+                </div>
+
+                {/* Budget & Timeline */}
+                <div className="grid grid-cols-2 gap-2.5">
+                  <div>
+                    <span className="text-[#7E7B73] text-[10px] uppercase font-medium block mb-1">Budget</span>
+                    <p className="text-xs text-[#E3C06F] bg-[#1A1A1A] p-2.5 rounded-lg border border-[#282828] font-medium">
+                      {selectedLead.budget || 'Not specified'}
+                    </p>
+                  </div>
+                  <div>
+                    <span className="text-[#7E7B73] text-[10px] uppercase font-medium block mb-1">Timeline</span>
+                    <p className="text-xs text-[#E3C06F] bg-[#1A1A1A] p-2.5 rounded-lg border border-[#282828] font-medium">
+                      {selectedLead.timeline || 'Not specified'}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Client Message */}
+                <div>
+                  <span className="text-[#7E7B73] text-[10px] uppercase font-medium block mb-1">
+                    Client Message
+                  </span>
+                  <div className="text-xs text-[#FAF7F0] bg-[#1A1A1A] p-3 rounded-lg border border-[#282828] italic min-h-[50px] leading-relaxed">
+                    {selectedLead.message ? `"${selectedLead.message}"` : <span className="text-[#555] not-italic">No message provided.</span>}
+                  </div>
+                </div>
               </div>
-              <div>
-                <span className="text-[#7E7B73] text-[10px] uppercase">Email</span>
-                <p className="text-[#FAF7F0] font-medium flex items-center gap-1 mt-0.5 truncate">
-                  <Mail size={12} className="text-[#C9A24B]" /> {selectedLead.email}
-                </p>
+
+              {/* Right Column: Advisor Pipeline & Internal Workspace */}
+              <div className="space-y-4 pl-0 md:pl-4 flex flex-col justify-between">
+                <div className="space-y-4">
+                  <h4 className="text-[11px] font-semibold tracking-wider text-[#C9A24B] uppercase flex items-center gap-1.5">
+                    <Building size={13} /> Advisor Pipeline & Follow-up
+                  </h4>
+
+                  {/* Pipeline Stage */}
+                  <div>
+                    <label className="block text-xs font-medium text-[#C9C6C0] uppercase mb-1.5">
+                      Update Pipeline Status
+                    </label>
+                    <select
+                      value={editStatus}
+                      onChange={(e) => setEditStatus(e.target.value as LeadStatus)}
+                      className="w-full bg-[#1A1A1A] border border-[#333] focus:border-[#C9A24B] rounded-lg px-3 py-2.5 text-xs text-[#FAF7F0] focus:outline-none transition-colors"
+                    >
+                      {STATUS_OPTIONS.map((st) => (
+                        <option key={st} value={st} className="bg-[#1A1A1A]">
+                          {st}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Follow-up Date */}
+                  <div>
+                    <label className="block text-xs font-medium text-[#C9C6C0] uppercase mb-1.5">
+                      Scheduled Follow-up Date
+                    </label>
+                    <input
+                      type="date"
+                      value={editFollowUp}
+                      onChange={(e) => setEditFollowUp(e.target.value)}
+                      className="w-full bg-[#1A1A1A] border border-[#333] focus:border-[#C9A24B] rounded-lg px-3 py-2 text-xs text-[#FAF7F0] focus:outline-none transition-colors"
+                    />
+                  </div>
+
+                  {/* Advisor Notes */}
+                  <div>
+                    <label className="block text-xs font-medium text-[#C9C6C0] uppercase mb-1.5">
+                      Internal Advisor Notes
+                    </label>
+                    <textarea
+                      rows={4}
+                      value={editNotes}
+                      onChange={(e) => setEditNotes(e.target.value)}
+                      placeholder="Log discussion notes, client requirements, preferred sectors, offer stage..."
+                      className="w-full bg-[#1A1A1A] border border-[#333] focus:border-[#C9A24B] rounded-lg p-3 text-xs text-[#FAF7F0] focus:outline-none transition-colors resize-none leading-relaxed"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* Interest & Message */}
-            <div className="space-y-1.5">
-              <span className="text-[#7E7B73] text-[10px] uppercase">
-                Property / Interested In
+            {/* Modal Footer */}
+            <div className="flex items-center justify-between px-6 py-4 border-t border-[#222] bg-[#171717]">
+              <span className="text-[11px] text-[#7E7B73] hidden sm:inline">
+                Changes persist directly to your MongoDB Atlas database.
               </span>
-              <p className="text-xs text-[#FAF7F0] bg-[#181818] p-2.5 rounded border border-[#262626]">
-                {selectedLead.projectName
-                  ? `${selectedLead.projectName} (Project Slug: /properties/${selectedLead.projectSlug})`
-                  : selectedLead.interestedIn || 'General Consultation'}
-              </p>
-            </div>
-
-            {(selectedLead.budget || selectedLead.timeline) && (
-              <div className="grid grid-cols-2 gap-3">
-                <div className="space-y-1">
-                  <span className="text-[#7E7B73] text-[10px] uppercase">Budget</span>
-                  <p className="text-xs text-[#E3C06F] bg-[#181818] p-2 rounded border border-[#262626] font-medium">
-                    {selectedLead.budget || 'Not specified'}
-                  </p>
-                </div>
-                <div className="space-y-1">
-                  <span className="text-[#7E7B73] text-[10px] uppercase">Timeline</span>
-                  <p className="text-xs text-[#E3C06F] bg-[#181818] p-2 rounded border border-[#262626] font-medium">
-                    {selectedLead.timeline || 'Not specified'}
-                  </p>
-                </div>
+              <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
+                <button
+                  type="button"
+                  onClick={() => setSelectedLead(null)}
+                  className="px-4 py-2 text-xs text-[#C9C6C0] bg-[#222] hover:bg-[#2A2A2A] rounded-md transition-colors"
+                >
+                  Close
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSaveLeadModal}
+                  disabled={savingLead}
+                  className="flex items-center gap-1.5 px-6 py-2 text-xs font-semibold text-[#0B0B0B] bg-[#C9A24B] hover:bg-[#E8C872] rounded-md transition-colors shadow-md disabled:opacity-50"
+                >
+                  <Save size={14} />
+                  <span>{savingLead ? 'Saving...' : 'Save File'}</span>
+                </button>
               </div>
-            )}
-
-            {selectedLead.message && (
-              <div className="space-y-1.5">
-                <span className="text-[#7E7B73] text-[10px] uppercase">Client Message</span>
-                <p className="text-xs text-[#FAF7F0] bg-[#181818] p-2.5 rounded border border-[#262626] italic">
-                  "{selectedLead.message}"
-                </p>
-              </div>
-            )}
-
-            {/* Pipeline Stage */}
-            <div>
-              <label className="block text-xs font-medium text-[#C9C6C0] uppercase mb-1.5">
-                Update Pipeline Status
-              </label>
-              <select
-                value={editStatus}
-                onChange={(e) => setEditStatus(e.target.value as LeadStatus)}
-                className="w-full bg-[#1A1A1A] border border-[#333] rounded px-3 py-2 text-xs text-[#FAF7F0]"
-              >
-                {STATUS_OPTIONS.map((st) => (
-                  <option key={st} value={st}>
-                    {st}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Follow-up Date */}
-            <div>
-              <label className="block text-xs font-medium text-[#C9C6C0] uppercase mb-1.5">
-                Scheduled Follow-up Date
-              </label>
-              <input
-                type="date"
-                value={editFollowUp}
-                onChange={(e) => setEditFollowUp(e.target.value)}
-                className="w-full bg-[#1A1A1A] border border-[#333] rounded px-3 py-2 text-xs text-[#FAF7F0]"
-              />
-            </div>
-
-            {/* Advisor Notes */}
-            <div>
-              <label className="block text-xs font-medium text-[#C9C6C0] uppercase mb-1.5">
-                Internal Advisor Notes
-              </label>
-              <textarea
-                rows={3}
-                value={editNotes}
-                onChange={(e) => setEditNotes(e.target.value)}
-                placeholder="Log discussion notes, budget constraints, preferred sectors..."
-                className="w-full bg-[#1A1A1A] border border-[#333] rounded px-3 py-2 text-xs text-[#FAF7F0]"
-              />
-            </div>
-
-            {/* Modal actions */}
-            <div className="flex justify-end gap-2 pt-2 border-t border-[#222]">
-              <button
-                type="button"
-                onClick={() => setSelectedLead(null)}
-                className="px-4 py-2 text-xs text-[#C9C6C0] bg-[#222] hover:bg-[#2A2A2A] rounded transition-colors"
-              >
-                Close
-              </button>
-              <button
-                type="button"
-                onClick={handleSaveLeadModal}
-                disabled={savingLead}
-                className="flex items-center gap-1.5 px-5 py-2 text-xs font-semibold text-[#0B0B0B] bg-[#C9A24B] hover:bg-[#E8C872] rounded transition-colors disabled:opacity-50"
-              >
-                <Save size={14} />
-                <span>{savingLead ? 'Saving...' : 'Save File'}</span>
-              </button>
             </div>
           </div>
         </div>

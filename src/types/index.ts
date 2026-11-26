@@ -140,6 +140,17 @@ export interface ReelItem {
   thumbnail?: string;
 }
 
+export interface FeaturedVideo {
+  title?: string;
+  subtitle?: string;
+  videoUrl?: string;
+  publicId?: string;
+  posterUrl?: string;
+  isActive: boolean;
+  duration?: number;
+  sizeBytes?: number;
+}
+
 export interface SiteSettings {
   _id?: string;
   brandName: string;
@@ -171,6 +182,7 @@ export interface SiteSettings {
   corridor?: CorridorSettings;
   reels?: ReelItem[];
   socialLinks: SocialLinks;
+  featuredVideo?: FeaturedVideo;
 }
 
 export interface AdminUser {
